@@ -69,6 +69,11 @@ class LanguageBatchBo
 			throw new \Exception('Error during getting language file: (' . $application . '/' . $language . ')');
 		}
 
+		return self::saveFile($application, $language, $languageResponse['data']);
+	}
+
+	protected static function saveFile($application, $language, $data)
+	{
 		// If we got correct data we store it.
 		$destination = self::getLanguageCachePath($application) . $language . '.php';
 		// If there is no folder yet, we'll create it.
@@ -77,9 +82,7 @@ class LanguageBatchBo
 			mkdir(dirname($destination), 0755, true);
 		}
 
-		$result = file_put_contents($destination, $languageResponse['data']);
-
-		return (bool)$result;
+		return (bool)file_put_contents($destination, $data);
 	}
 
 	/**
