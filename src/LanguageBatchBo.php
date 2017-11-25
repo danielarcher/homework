@@ -132,13 +132,7 @@ class LanguageBatchBo
 		foreach ($languages as $language) {
 			$xmlContent = self::getAppletLanguageFile($appletLanguageId, $language);
 			$xmlFile    = $path . '/lang_' . $language . '.xml';
-			if (strlen($xmlContent) == file_put_contents($xmlFile, $xmlContent)) {
-				echo " OK saving $xmlFile was successful.\n";
-			}
-			else {
-				throw new \Exception('Unable to save applet: (' . $appletLanguageId . ') language: (' . $language
-					. ') xml (' . $xmlFile . ')!');
-			}
+			self::saveFile($xmlFile, $xmlContent);
 		}
 		echo " < $appletLanguageId language xml cached.\n";
 	}
