@@ -80,7 +80,12 @@ class LanguageBatchBo
 			mkdir(dirname($destination), 0755, true);
 		}
 
-		return (bool)file_put_contents($destination, $data);
+		if (strlen($data) == file_put_contents($destination, $data)) {
+			return true;
+		}
+		else {
+			throw new \Exception('Unable to save file: ' . $destination . '!');
+		}
 	}
 
 	/**
