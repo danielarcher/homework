@@ -27,7 +27,8 @@ class Application
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
 			echo "\t[LANGUAGE: " . $language . "]";
-			if ($this->getLanguageFile($language)) {
+			$content = $this->getLanguageFile($language);
+			if ($this->generateFile($content, $language)) {
 				echo " OK\n";
 			}
 			else {
@@ -61,14 +62,14 @@ class Application
 			throw new \Exception('Error during getting language file: (' . $this->getId() . '/' . $language . ')');
 		}
 
-		return $this->generateFile($languageResponse, $language);
+		return $languageResponse['data'];
 	}
 
-	private function generateFile($languageApiResponse, $language)
+	private function generateFile($content, $language)
 	{
 		$destination = $this->getLanguageCachePath($this->getId()) . $language . '.php';
 
-		return FileHandle::save($destination, $languageApiResponse['data']);
+		return FileHandle::save($destination, $content);
 	}
 
 	public function getLanguageCachePath($language)
