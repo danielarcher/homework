@@ -91,7 +91,7 @@ class Applet
 		foreach ($languages as $language) {
 			$xmlContent = $this->getLanguageFile($language);
 			$xmlFile    = $path . '/lang_' . $language . '.xml';
-			LanguageBatchBo::saveFile($xmlFile, $xmlContent);
+			FileHandle::save($xmlFile, $xmlContent);
 		}
 		echo " < {$this->getAppletId()} language xml cached.\n";
 	}

@@ -43,7 +43,7 @@ class Application
 
 		$destination = $this->getLanguageCachePath($this->getApplicationId()) . $language . '.php';
 
-		return LanguageBatchBo::saveFile($destination, $languageResponse['data']);
+		return FileHandle::save($destination, $languageResponse['data']);
 	}
 
 	public function getLanguageCachePath($language)

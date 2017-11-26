@@ -55,11 +55,6 @@ class LanguageBatchBo
 		return $languageApplication->getLanguageFile($language);
 	}
 
-	public static function saveFile($destination, $data)
-	{
-		return FileHandle::save($destination, $data);
-	}
-
 	/**
 	 * Gets the language files for the applet and puts them into the cache.
 	 *
