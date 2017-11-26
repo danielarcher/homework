@@ -4,22 +4,6 @@ namespace Language;
 
 class Application extends GenericApplication
 {
-	public function composeFiles()
-	{
-		echo "[APPLICATION: " . $this->getId() . "]\n";
-		$languages = $this->getLanguages();
-		foreach ($languages as $language) {
-			echo "\t[LANGUAGE: " . $language . "]";
-			$content = $this->getLanguageFile($language);
-			if ($this->generateFile($content, $language)) {
-				echo " OK\n";
-			}
-			else {
-				throw new \Exception('Unable to generate language file!');
-			}
-		}
-	}
-
 	protected function getLanguages()
 	{
 		$applications = Config::get('system.translated_applications');

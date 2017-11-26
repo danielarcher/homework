@@ -6,6 +6,21 @@ class GenericApplication
 {
 	protected $id;
 
+	public function composeFiles()
+	{
+		echo "[APPLICATION: " . $this->getId() . "]\n";
+		$languages = $this->getLanguages();
+		foreach ($languages as $language) {
+			echo "\t[LANGUAGE: " . $language . "]";
+			$content = $this->getLanguageFile($language);
+			if ($this->generateFile($content, $language)) {
+				echo " OK\n";
+			}
+			else {
+				throw new \Exception('Unable to generate language file!');
+			}
+		}
+	}
 	public function __construct($id)
 	{
 		$this->setId($id);
