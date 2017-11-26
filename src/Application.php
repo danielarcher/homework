@@ -23,7 +23,6 @@ class Application
 
 	public function getLanguageFile($language)
 	{
-		$result = false;
 		$languageResponse = ApiCall::call(
 			'system_api',
 			'language_api',
@@ -41,9 +40,14 @@ class Application
 			throw new \Exception('Error during getting language file: (' . $this->getApplicationId() . '/' . $language . ')');
 		}
 
+		return $this->generateFile($languageResponse, $language);
+	}
+
+	private function generateFile($languageApiResponse, $language)
+	{
 		$destination = $this->getLanguageCachePath($this->getApplicationId()) . $language . '.php';
 
-		return FileHandle::save($destination, $languageResponse['data']);
+		return FileHandle::save($destination, $languageApiResponse['data']);
 	}
 
 	public function getLanguageCachePath($language)
