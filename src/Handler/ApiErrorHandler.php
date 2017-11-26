@@ -1,8 +1,8 @@
 <?php 
 
-namespace Language;
+namespace Language\Handler;
 
-class ApiCallErrorVerifier
+class ApiErrorHandler
 {
 	public static function checkError($result)
 	{

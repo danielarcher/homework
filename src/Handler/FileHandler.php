@@ -1,8 +1,8 @@
 <?php 
 
-namespace Language;
+namespace Language\Handler;
 
-class FileHandle
+class FileHandler
 {
 	public static function save($destination, $content)
 	{

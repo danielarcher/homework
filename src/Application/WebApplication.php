@@ -3,8 +3,8 @@
 namespace Language\Application;
 
 use Language\ApiCall;
-use Language\ApiCallErrorVerifier;
 use Language\Config;
+use Language\Handler\ApiErrorHandler;
 
 class WebApplication extends GenericApplication
 {
@@ -27,7 +27,7 @@ class WebApplication extends GenericApplication
 		);
 
 		try {
-			ApiCallErrorVerifier::checkError($languageResponse);
+			ApiErrorHandler::checkError($languageResponse);
 		}
 		catch (\Exception $e) {
 			throw new \Exception('Error during getting language file: (' . $this->getId() . '/' . $language . ')');

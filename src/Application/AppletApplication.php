@@ -3,8 +3,8 @@
 namespace Language\Application;
 
 use Language\ApiCall;
-use Language\ApiCallErrorVerifier;
 use Language\Config;
+use Language\Handler\ApiErrorHandler;
 
 class AppletApplication extends GenericApplication
 {
@@ -21,7 +21,7 @@ class AppletApplication extends GenericApplication
 		);
 
 		try {
-			ApiCallErrorVerifier::checkError($result);
+			ApiErrorHandler::checkError($result);
 		}
 		catch (\Exception $e) {
 			throw new \Exception('Getting languages for applet (' . $applet . ') was unsuccessful ' . $e->getMessage());
@@ -54,7 +54,7 @@ class AppletApplication extends GenericApplication
 		);
 
 		try {
-			ApiCallErrorVerifier::checkError($result);
+			ApiErrorHandler::checkError($result);
 		}
 		catch (\Exception $e) {
 			throw new \Exception('Getting language xml for applet: (' . $applet . ') on language: (' . $language . ') was unsuccessful: '

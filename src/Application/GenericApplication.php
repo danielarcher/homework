@@ -2,7 +2,7 @@
 
 namespace Language\Application;
 
-use Language\FileHandle;
+use Language\Handler\FileHandler;
 
 class GenericApplication implements ITranslatableApplication
 {
@@ -46,7 +46,7 @@ class GenericApplication implements ITranslatableApplication
 	{
 		$destination = $this->getLanguageCachePath($language);
 
-		return FileHandle::save($destination, $content);
+		return FileHandler::save($destination, $content);
 	}
 
 	protected function getLanguages() {}
