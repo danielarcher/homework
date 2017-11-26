@@ -2,25 +2,8 @@
 
 namespace Language;
 
-class Application
+class Application extends GenericApplication
 {
-	private $id;
-
-	public function __construct($id)
-	{
-		$this->setId($id);
-	}
-
-	private function setid($id)
-	{
-		$this->id = $id;
-	}
-
-	public function getId()
-	{
-		return $this->id;
-	}
-
 	public function composeFiles()
 	{
 		echo "[APPLICATION: " . $this->getId() . "]\n";
@@ -37,13 +20,13 @@ class Application
 		}
 	}
 
-	public function getLanguages()
+	protected function getLanguages()
 	{
 		$applications = Config::get('system.translated_applications');
 		return $applications[$this->getId()];
 	}
 
-	public function getLanguageFile($language)
+	protected function getLanguageFile($language)
 	{
 		$languageResponse = ApiCall::call(
 			'system_api',
@@ -65,14 +48,14 @@ class Application
 		return $languageResponse['data'];
 	}
 
-	private function generateFile($content, $language)
+	protected function generateFile($content, $language)
 	{
 		$destination = $this->getLanguageCachePath($language);
 
 		return FileHandle::save($destination, $content);
 	}
 
-	private function getLanguageCachePath($language)
+	protected function getLanguageCachePath($language)
 	{
 		return Config::get('system.paths.root') . '/cache/' . $this->getId(). '/' . $language . '.php';
 	}

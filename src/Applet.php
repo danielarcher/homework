@@ -2,26 +2,27 @@
 
 namespace Language;
 
-class Applet
+class Applet extends GenericApplication
 {
-	private $id;
-
-	public function __construct($id)
+	public function composeFiles()
 	{
-		$this->setId($id);
+		echo " Getting > {$this->getId()} language xmls..\n";
+		$languages = $this->getLanguages();
+		if (empty($languages)) {
+			throw new \Exception('There is no available languages for the ' . $this->getId() . ' application.');
+		}
+		else {
+			echo ' - Available languages: ' . implode(', ', $languages) . "\n";
+		}
+		$path = Config::get('system.paths.root') . '/cache/flash';
+		foreach ($languages as $language) {
+			$content = $this->getLanguageFile($language);
+			$this->generateFile($content, $language);
+		}
+		echo " < {$this->getId()} language xml cached.\n";
 	}
 
-	private function setId($id)
-	{
-		$this->id = $id;
-	}
-
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	public function getLanguages()
+	protected function getLanguages()
 	{
 		$result = ApiCall::call(
 			'system_api',
@@ -51,7 +52,7 @@ class Applet
 	 *
 	 * @return string|false   The content of the language file or false if weren't able to get it.
 	 */
-	public function getLanguageFile($language)
+	protected function getLanguageFile($language)
 	{
 		$result = ApiCall::call(
 			'system_api',
@@ -77,32 +78,7 @@ class Applet
 		return $result['data'];
 	}
 
-	public function composeFiles()
-	{
-		echo " Getting > {$this->getId()} language xmls..\n";
-		$languages = $this->getLanguages();
-		if (empty($languages)) {
-			throw new \Exception('There is no available languages for the ' . $this->getId() . ' applet.');
-		}
-		else {
-			echo ' - Available languages: ' . implode(', ', $languages) . "\n";
-		}
-		$path = Config::get('system.paths.root') . '/cache/flash';
-		foreach ($languages as $language) {
-			$content = $this->getLanguageFile($language);
-			$this->generateFile($content, $language);
-		}
-		echo " < {$this->getId()} language xml cached.\n";
-	}
-
-	private function generateFile($content, $language)
-	{
-		$destination = $this->getLanguageCachePath($language);
-
-		return FileHandle::save($destination, $content);
-	}
-
-	private function getLanguageCachePath($language)
+	protected function getLanguageCachePath($language)
 	{
 		return Config::get('system.paths.root') . '/cache/flash/lang_' . $language . '.xml';
 	}
