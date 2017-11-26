@@ -42,4 +42,38 @@ class Applet
 
 		return $result['data'];
 	}
+
+
+	/**
+	 * Gets a language xml for an applet.
+	 * 
+	 * @param string $language    The language identifier.
+	 *
+	 * @return string|false   The content of the language file or false if weren't able to get it.
+	 */
+	public function getLanguageFile($language)
+	{
+		$result = ApiCall::call(
+			'system_api',
+			'language_api',
+			array(
+				'system' => 'LanguageFiles',
+				'action' => 'getAppletLanguageFile'
+			),
+			array(
+				'applet' => $this->getAppletId(),
+				'language' => $language
+			)
+		);
+
+		try {
+			ApiCallErrorVerifier::checkError($result);
+		}
+		catch (\Exception $e) {
+			throw new \Exception('Getting language xml for applet: (' . $applet . ') on language: (' . $language . ') was unsuccessful: '
+				. $e->getMessage());
+		}
+
+		return $result['data'];
+	}
 }
