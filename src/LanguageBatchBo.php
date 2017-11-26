@@ -51,27 +51,8 @@ class LanguageBatchBo
 	 */
 	protected static function getLanguageFile($application, $language)
 	{
-		$result = false;
-		$languageResponse = ApiCall::call(
-			'system_api',
-			'language_api',
-			array(
-				'system' => 'LanguageFiles',
-				'action' => 'getLanguageFile'
-			),
-			array('language' => $language)
-		);
-
-		try {
-			self::checkForApiErrorResult($languageResponse);
-		}
-		catch (\Exception $e) {
-			throw new \Exception('Error during getting language file: (' . $application . '/' . $language . ')');
-		}
-
-		$destination = self::getLanguageCachePath($application) . $language . '.php';
-
-		return self::saveFile($destination, $languageResponse['data']);
+		$languageApplication = new Application($application);
+		return $languageApplication->getLanguageFile($language);
 	}
 
 	public static function saveFile($destination, $data)
@@ -97,7 +78,8 @@ class LanguageBatchBo
 	 */
 	protected static function getLanguageCachePath($application)
 	{
-		return Config::get('system.paths.root') . '/cache/' . $application. '/';
+		$languageApplication = new Application($application);
+		return $languageApplication->getLanguageCachePath();
 	}
 
 	/**
