@@ -51,7 +51,7 @@ class AppletApplication extends Application implements ITranslatableApplication
 			ApiErrorHandler::checkError($result);
 		}
 		catch (\Exception $e) {
-			throw new \Exception('Getting language xml for applet: (' . $applet . ') on language: (' . $language . ') was unsuccessful: '
+			throw new \Exception('Getting language xml for applet: (' . $this->getId() . ') on language: (' . $language . ') was unsuccessful: '
 				. $e->getMessage());
 		}
 

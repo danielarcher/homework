@@ -18,7 +18,7 @@ class WebApplication extends Application implements ITranslatableApplication
 
 	public function getLanguageFile(string $language)
 	{
-		$languageResponse = ApiCall::call(
+		$result = ApiCall::call(
 			'system_api',
 			'language_api',
 			array(
@@ -29,13 +29,13 @@ class WebApplication extends Application implements ITranslatableApplication
 		);
 
 		try {
-			ApiErrorHandler::checkError($languageResponse);
+			ApiErrorHandler::checkError($result);
 		}
 		catch (\Exception $e) {
 			throw new \Exception('Error during getting language file: (' . $this->getId() . '/' . $language . ') ' . $e->getMessage());
 		}
 
-		return $languageResponse['data'];
+		return $result['data'];
 	}
 
 	public function getLanguageCachePath(string $language)
