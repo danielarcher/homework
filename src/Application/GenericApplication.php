@@ -1,6 +1,8 @@
 <?php 
 
-namespace Language;
+namespace Language\Application;
+
+use Language\FileHandle;
 
 class GenericApplication implements ITranslatableApplication
 {

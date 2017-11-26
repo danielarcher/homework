@@ -1,8 +1,12 @@
 <?php 
 
-namespace Language;
+namespace Language\Application;
 
-class Application extends GenericApplication
+use Language\ApiCall;
+use Language\ApiCallErrorVerifier;
+use Language\Config;
+
+class WebApplication extends GenericApplication
 {
 	protected function getLanguages()
 	{

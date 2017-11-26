@@ -1,8 +1,12 @@
 <?php 
 
-namespace Language;
+namespace Language\Application;
 
-class Applet extends GenericApplication
+use Language\ApiCall;
+use Language\ApiCallErrorVerifier;
+use Language\Config;
+
+class AppletApplication extends GenericApplication
 {
 	protected function getLanguages()
 	{
