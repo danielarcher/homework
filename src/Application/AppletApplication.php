@@ -32,7 +32,7 @@ class AppletApplication extends Application implements ITranslatableApplication
 		return $result['data'];
 	}
 
-	public function getLanguageFile($language)
+	public function getLanguageFile(string $language)
 	{
 		$result = ApiCall::call(
 			'system_api',
@@ -58,7 +58,7 @@ class AppletApplication extends Application implements ITranslatableApplication
 		return $result['data'];
 	}
 
-	public function getLanguageCachePath($language)
+	public function getLanguageCachePath(string $language)
 	{
 		return Config::get('system.paths.root') . '/cache/flash/lang_' . $language . '.xml';
 	}

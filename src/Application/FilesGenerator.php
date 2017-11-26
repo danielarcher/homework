@@ -2,7 +2,9 @@
 
 namespace Language\Application;
 
+use Language\Application\ITranslatableApplication;
 use Language\Handler\FileHandler;
+use Psr\Log\LoggerInterface;
 
 class FilesGenerator
 {
@@ -12,32 +14,25 @@ class FilesGenerator
 
 	protected $application;
 
-    /**
-     * @return mixed
-     */
-    public function getApplication()
-    {
-        return $this->application;
-    }
-
-    /**
-     * @param mixed $application
-     *
-     * @return self
-     */
-    public function setApplication($application)
-    {
-        $this->application = $application;
-
-        return $this;
-    }
-
-	public function __construct($application)
+	/**
+	 * Create new file generator
+	 * 
+	 * @param ITranslatableApplication $application 
+	 */
+	public function __construct(ITranslatableApplication $application)
 	{
 		$this->application = $application;
 	}
 
-	public function setLogger($logger)
+	/**
+	 * @return ITranslatableApplication
+	 */
+	public function getApplication()
+	{
+		return $this->application;
+	}
+
+	public function setLogger(LoggerInterface $logger)
 	{
 		$this->logger = $logger;
 	}
@@ -52,7 +47,7 @@ class FilesGenerator
 		}
 	}
 	
-	protected function generateFile($language)
+	protected function generateFile(string $language)
 	{
 		$content = $this->getApplication()->getLanguageFile($language);
 		$destination = $this->getApplication()->getLanguageCachePath($language);

@@ -6,7 +6,7 @@ interface ITranslatableApplication
 {
 	public function getLanguages();
 
-	public function getLanguageFile();
+	public function getLanguageFile(string $language);
 
-	public function getLanguageCachePath();
+	public function getLanguageCachePath(string $language);
 }
