@@ -23,10 +23,11 @@ class LanguageBatchBo
 	{
 		// The applications where we need to translate.
 		self::$applications = Config::get('system.translated_applications');
-
-		echo "\nGenerating language files\n";
+		$logger = self::getLogger();
+		$logger->debug("Generating language files");
 		foreach (self::$applications as $applicationId => $languages) {
 			$languageApplication = new Application($applicationId);
+			$languageApplication->setLogger($logger);
 			$languageApplication->composeFiles();
 		}
 	}
@@ -44,14 +45,22 @@ class LanguageBatchBo
 		$applets = array(
 			'memberapplet' => 'JSM2_MemberApplet',
 		);
-
-		echo "\nGetting applet language XMLs..\n";
+		$logger = self::getLogger();
+		$logger->debug("Getting applet language XMLs..");
 
 		foreach ($applets as $appletLanguageId) {
 			$applet = new Applet($appletLanguageId);
+			$applet->setLogger($logger);
 			$applet->composeFiles();
 		}
 
-		echo "\nApplet language XMLs generated.\n";
+		$logger->debug("Applet language XMLs generated.");
+	}
+
+	protected static function getLogger()
+	{
+		$log = new \Monolog\Logger('LanguageBathBo');
+		$log->pushHandler(new \Monolog\Handler\StreamHandler('php://stdout', \Monolog\Logger::DEBUG));
+		return $log;
 	}
 }

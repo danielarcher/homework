@@ -6,12 +6,19 @@ class GenericApplication implements ITranslatableApplication
 {
 	protected $id;
 
+	protected $logger;
+
+	public function setLogger($logger)
+	{
+		$this->logger = $logger;
+	}
+
 	public function composeFiles()
 	{
-		echo "[APPLICATION: " . $this->getId() . "]\n";
+		$this->logger->debug("[APPLICATION: " . $this->getId() . "]");
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
-			echo "\t[LANGUAGE: " . $language . "]";
+			$this->logger->debug("[LANGUAGE: " . $language . "]");
 			$content = $this->getLanguageFile($language);
 			if (false == $this->generateFile($content, $language)) {
 				throw new \LogicException('Unable to generate language file!');
