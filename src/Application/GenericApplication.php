@@ -17,10 +17,10 @@ class GenericApplication implements ITranslatableApplication
 
 	public function composeFiles()
 	{
-		$this->logger->debug("[APPLICATION: " . $this->getId() . "]");
+		$this->logger->debug("--Application: " . $this->getId());
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
-			$this->logger->debug("[LANGUAGE: " . $language . "]");
+			$this->logger->debug("--Language: " . $language);
 			$content = $this->getLanguageFile($language);
 			if (false == $this->generateFile($content, $language)) {
 				throw new \LogicException('Unable to generate language file!');
