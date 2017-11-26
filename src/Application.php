@@ -4,21 +4,21 @@ namespace Language;
 
 class Application
 {
-	private $applicationId;
+	private $id;
 
-	public function __construct($applicationId)
+	public function __construct($id)
 	{
-		$this->setApplicationId($applicationId);
+		$this->setId($id);
 	}
 
-	private function setApplicationId($applicationId)
+	private function setid($id)
 	{
-		$this->applicationId = $applicationId;
+		$this->id = $id;
 	}
 
-	public function getApplicationId()
+	public function getId()
 	{
-		return $this->applicationId;
+		return $this->id;
 	}
 
 	public function getLanguageFile($language)
@@ -37,7 +37,7 @@ class Application
 			ApiCallErrorVerifier::checkError($languageResponse);
 		}
 		catch (\Exception $e) {
-			throw new \Exception('Error during getting language file: (' . $this->getApplicationId() . '/' . $language . ')');
+			throw new \Exception('Error during getting language file: (' . $this->getId() . '/' . $language . ')');
 		}
 
 		return $this->generateFile($languageResponse, $language);
@@ -45,13 +45,13 @@ class Application
 
 	private function generateFile($languageApiResponse, $language)
 	{
-		$destination = $this->getLanguageCachePath($this->getApplicationId()) . $language . '.php';
+		$destination = $this->getLanguageCachePath($this->getId()) . $language . '.php';
 
 		return FileHandle::save($destination, $languageApiResponse['data']);
 	}
 
 	public function getLanguageCachePath($language)
 	{
-		return Config::get('system.paths.root') . '/cache/' . $this->getApplicationId(). '/';
+		return Config::get('system.paths.root') . '/cache/' . $this->getId(). '/';
 	}
 }

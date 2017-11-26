@@ -4,21 +4,21 @@ namespace Language;
 
 class Applet
 {
-	private $appletId;
+	private $id;
 
-	public function __construct($appletId)
+	public function __construct($id)
 	{
-		$this->setAppletId($appletId);
+		$this->setId($id);
 	}
 
-	public function setAppletId($id)
+	private function setId($id)
 	{
-		$this->appletId = $id;
+		$this->id = $id;
 	}
 
-	public function getAppletId()
+	public function getId()
 	{
-		return $this->appletId;
+		return $this->id;
 	}
 
 	public function getLanguages()
@@ -30,7 +30,7 @@ class Applet
 				'system' => 'LanguageFiles',
 				'action' => 'getAppletLanguages'
 			),
-			array('applet' => $this->getAppletId())
+			array('applet' => $this->getId())
 		);
 
 		try {
@@ -61,7 +61,7 @@ class Applet
 				'action' => 'getAppletLanguageFile'
 			),
 			array(
-				'applet' => $this->getAppletId(),
+				'applet' => $this->getId(),
 				'language' => $language
 			)
 		);
@@ -79,10 +79,10 @@ class Applet
 
 	public function generateXmlFiles()
 	{
-		echo " Getting > {$this->getAppletId()} language xmls..\n";
+		echo " Getting > {$this->getId()} language xmls..\n";
 		$languages = $this->getLanguages();
 		if (empty($languages)) {
-			throw new \Exception('There is no available languages for the ' . $this->getAppletId() . ' applet.');
+			throw new \Exception('There is no available languages for the ' . $this->getId() . ' applet.');
 		}
 		else {
 			echo ' - Available languages: ' . implode(', ', $languages) . "\n";
@@ -93,6 +93,6 @@ class Applet
 			$xmlFile    = $path . '/lang_' . $language . '.xml';
 			FileHandle::save($xmlFile, $xmlContent);
 		}
-		echo " < {$this->getAppletId()} language xml cached.\n";
+		echo " < {$this->getId()} language xml cached.\n";
 	}
 }
