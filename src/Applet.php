@@ -76,4 +76,23 @@ class Applet
 
 		return $result['data'];
 	}
+
+	public function generateXmlFiles()
+	{
+		echo " Getting > {$this->getAppletId()} language xmls..\n";
+		$languages = $this->getLanguages();
+		if (empty($languages)) {
+			throw new \Exception('There is no available languages for the ' . $this->getAppletId() . ' applet.');
+		}
+		else {
+			echo ' - Available languages: ' . implode(', ', $languages) . "\n";
+		}
+		$path = Config::get('system.paths.root') . '/cache/flash';
+		foreach ($languages as $language) {
+			$xmlContent = $this->getLanguageFile($language);
+			$xmlFile    = $path . '/lang_' . $language . '.xml';
+			LanguageBatchBo::saveFile($xmlFile, $xmlContent);
+		}
+		echo " < {$this->getAppletId()} language xml cached.\n";
+	}
 }

@@ -74,7 +74,7 @@ class LanguageBatchBo
 		return self::saveFile($destination, $languageResponse['data']);
 	}
 
-	protected static function saveFile($destination, $data)
+	public static function saveFile($destination, $data)
 	{
 		if (!is_dir(dirname($destination))) {
 			mkdir(dirname($destination), 0755, true);
@@ -125,21 +125,8 @@ class LanguageBatchBo
 
 	protected static function generateAppletXmlFile($appletLanguageId)
 	{
-		echo " Getting > $appletLanguageId language xmls..\n";
-		$languages = self::getAppletLanguages($appletLanguageId);
-		if (empty($languages)) {
-			throw new \Exception('There is no available languages for the ' . $appletLanguageId . ' applet.');
-		}
-		else {
-			echo ' - Available languages: ' . implode(', ', $languages) . "\n";
-		}
-		$path = Config::get('system.paths.root') . '/cache/flash';
-		foreach ($languages as $language) {
-			$xmlContent = self::getAppletLanguageFile($appletLanguageId, $language);
-			$xmlFile    = $path . '/lang_' . $language . '.xml';
-			self::saveFile($xmlFile, $xmlContent);
-		}
-		echo " < $appletLanguageId language xml cached.\n";
+		$applet = new Applet($appletLanguageId);
+		$applet->generateXmlFiles();
 	}
 
 	/**
