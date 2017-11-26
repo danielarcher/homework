@@ -32,13 +32,6 @@ class Application extends GenericApplication
 		return $languageResponse['data'];
 	}
 
-	protected function generateFile($content, $language)
-	{
-		$destination = $this->getLanguageCachePath($language);
-
-		return FileHandle::save($destination, $content);
-	}
-
 	protected function getLanguageCachePath($language)
 	{
 		return Config::get('system.paths.root') . '/cache/' . $this->getId(). '/' . $language . '.php';
