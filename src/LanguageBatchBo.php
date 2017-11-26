@@ -30,6 +30,7 @@ class LanguageBatchBo
 		self::$applications = Config::get('system.translated_applications');
 		$logger = self::getLogger();
 		$logger->debug("Generating language files");
+		
 		foreach (self::$applications as $applicationId => $languages) {
 			$languageApplication = new WebApplication($applicationId);
 			$languageApplication->setLogger($logger);

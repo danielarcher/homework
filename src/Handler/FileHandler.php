@@ -11,7 +11,7 @@ class FileHandler
 		}
 
 		if (strlen($content) !== file_put_contents($destination, $content)) {
-			throw new \Exception('Unable to save file: ' . $destination . '!');
+			throw new \LogicException('Unable to save file: ' . $destination . '!');
 		}
 
 		return true;
