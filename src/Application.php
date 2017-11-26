@@ -21,6 +21,27 @@ class Application
 		return $this->id;
 	}
 
+	public function composeFiles()
+	{
+		echo "[APPLICATION: " . $this->getId() . "]\n";
+		$languages = $this->getLanguages();
+		foreach ($languages as $language) {
+			echo "\t[LANGUAGE: " . $language . "]";
+			if ($this->getLanguageFile($language)) {
+				echo " OK\n";
+			}
+			else {
+				throw new \Exception('Unable to generate language file!');
+			}
+		}
+	}
+
+	public function getLanguages()
+	{
+		$applications = Config::get('system.translated_applications');
+		return $applications[$this->getId()];
+	}
+
 	public function getLanguageFile($language)
 	{
 		$languageResponse = ApiCall::call(

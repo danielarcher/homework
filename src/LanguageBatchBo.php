@@ -25,17 +25,9 @@ class LanguageBatchBo
 		self::$applications = Config::get('system.translated_applications');
 
 		echo "\nGenerating language files\n";
-		foreach (self::$applications as $application => $languages) {
-			echo "[APPLICATION: " . $application . "]\n";
-			foreach ($languages as $language) {
-				echo "\t[LANGUAGE: " . $language . "]";
-				if (self::getLanguageFile($application, $language)) {
-					echo " OK\n";
-				}
-				else {
-					throw new \Exception('Unable to generate language file!');
-				}
-			}
+		foreach (self::$applications as $applicationId => $languages) {
+			$languageApplication = new Application($applicationId);
+			$languageApplication->composeFiles();
 		}
 	}
 
