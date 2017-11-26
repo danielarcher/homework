@@ -30,7 +30,7 @@ class WebApplication extends GenericApplication
 			ApiErrorHandler::checkError($languageResponse);
 		}
 		catch (\Exception $e) {
-			throw new \Exception('Error during getting language file: (' . $this->getId() . '/' . $language . ')');
+			throw new \Exception('Error during getting language file: (' . $this->getId() . '/' . $language . ') ' . $e->getMessage());
 		}
 
 		return $languageResponse['data'];

@@ -30,11 +30,15 @@ class LanguageBatchBo
 		self::$applications = Config::get('system.translated_applications');
 		$logger = self::getLogger();
 		$logger->debug("Generating language files");
-		
+
 		foreach (self::$applications as $applicationId => $languages) {
-			$languageApplication = new WebApplication($applicationId);
-			$languageApplication->setLogger($logger);
-			$languageApplication->composeFiles();
+			try {
+				$languageApplication = new WebApplication($applicationId);
+				$languageApplication->setLogger($logger);
+				$languageApplication->composeFiles();
+			} catch (\Exception $e) {
+				$logger->error($e->getMessage());
+			}
 		}
 	}
 
@@ -55,9 +59,13 @@ class LanguageBatchBo
 		$logger->debug("Getting applet language XMLs..");
 
 		foreach ($applets as $appletLanguageId) {
-			$applet = new AppletApplication($appletLanguageId);
-			$applet->setLogger($logger);
-			$applet->composeFiles();
+			try {
+				$applet = new AppletApplication($appletLanguageId);
+				$applet->setLogger($logger);
+				$applet->composeFiles();
+			} catch (\Exception $e) {
+				$logger->error($e->getMessage());
+			}
 		}
 
 		$logger->debug("Applet language XMLs generated.");

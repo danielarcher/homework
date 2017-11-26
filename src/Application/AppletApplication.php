@@ -24,7 +24,7 @@ class AppletApplication extends GenericApplication
 			ApiErrorHandler::checkError($result);
 		}
 		catch (\Exception $e) {
-			throw new \Exception('Getting languages for applet (' . $applet . ') was unsuccessful ' . $e->getMessage());
+			throw new \Exception('Getting languages for applet (' . $this->getId() . ') was unsuccessful ' . $e->getMessage());
 		}
 
 		return $result['data'];

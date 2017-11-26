@@ -12,10 +12,11 @@ class ApiErrorHandler
 		}
 		// Wrong response.
 		if ($result['status'] != 'OK') {
-			throw new \LogicException('Wrong response: '
-				. (!empty($result['error_type']) ? 'Type(' . $result['error_type'] . ') ' : '')
-				. (!empty($result['error_code']) ? 'Code(' . $result['error_code'] . ') ' : '')
-				. ((string)$result['data']));
+			$errorMessage = sprintf('Wrong response: Type(%) Code(%) %', 
+				$result['error_type'], 
+				$result['error_code'], 
+				$result['data']);
+			throw new \LogicException($errorMessage);
 		}
 		// Wrong content.
 		if ($result['data'] === false) {
