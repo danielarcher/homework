@@ -13,11 +13,8 @@ class GenericApplication implements ITranslatableApplication
 		foreach ($languages as $language) {
 			echo "\t[LANGUAGE: " . $language . "]";
 			$content = $this->getLanguageFile($language);
-			if ($this->generateFile($content, $language)) {
-				echo " OK\n";
-			}
-			else {
-				throw new \Exception('Unable to generate language file!');
+			if (false == $this->generateFile($content, $language)) {
+				throw new \LogicException('Unable to generate language file!');
 			}
 		}
 	}

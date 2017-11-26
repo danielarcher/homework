@@ -10,11 +10,10 @@ class FileHandle
 			mkdir(dirname($destination), 0755, true);
 		}
 
-		if (strlen($content) == file_put_contents($destination, $content)) {
-			return true;
-		}
-		else {
+		if (strlen($content) !== file_put_contents($destination, $content)) {
 			throw new \Exception('Unable to save file: ' . $destination . '!');
 		}
+
+		return true;
 	}
 }
