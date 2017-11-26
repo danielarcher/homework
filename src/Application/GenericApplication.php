@@ -17,12 +17,9 @@ class GenericApplication implements ITranslatableApplication
 
 	public function composeFiles()
 	{
-		$this->logger->debug("--Application: " . $this->getId());
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
-			$this->logger->debug("--Language: " . $language);
-			$content = $this->getLanguageFile($language);
-			if (false == $this->generateFile($content, $language)) {
+			if (false == $this->generateFile($language)) {
 				throw new \LogicException('Unable to generate language file!');
 			}
 		}
@@ -42,8 +39,9 @@ class GenericApplication implements ITranslatableApplication
 		return $this->id;
 	}
 
-	protected function generateFile($content, $language)
+	protected function generateFile($language)
 	{
+		$content = $this->getLanguageFile($language);
 		$destination = $this->getLanguageCachePath($language);
 
 		return FileHandler::save($destination, $content);
