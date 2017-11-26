@@ -32,22 +32,6 @@ class LanguageBatchBo
 	}
 
 	/**
-	 * Gets the language file for the given language and stores it.
-	 *
-	 * @param string $application   The name of the application.
-	 * @param string $language      The identifier of the language.
-	 *
-	 * @throws CurlException   If there was an error during the download of the language file.
-	 *
-	 * @return bool   The success of the operation.
-	 */
-	protected static function getLanguageFile($application, $language)
-	{
-		$languageApplication = new Application($application);
-		return $languageApplication->getLanguageFile($language);
-	}
-
-	/**
 	 * Gets the language files for the applet and puts them into the cache.
 	 *
 	 * @throws Exception   If there was an error.
