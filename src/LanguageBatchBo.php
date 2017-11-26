@@ -57,16 +57,7 @@ class LanguageBatchBo
 
 	public static function saveFile($destination, $data)
 	{
-		if (!is_dir(dirname($destination))) {
-			mkdir(dirname($destination), 0755, true);
-		}
-
-		if (strlen($data) == file_put_contents($destination, $data)) {
-			return true;
-		}
-		else {
-			throw new \Exception('Unable to save file: ' . $destination . '!');
-		}
+		return FileHandle::save($destination, $data);
 	}
 
 	/**
