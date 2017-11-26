@@ -2,7 +2,7 @@
 
 namespace Language;
 
-class GenericApplication
+class GenericApplication implements ITranslatableApplication
 {
 	protected $id;
 
@@ -42,4 +42,10 @@ class GenericApplication
 
 		return FileHandle::save($destination, $content);
 	}
+
+	protected function getLanguages() {}
+
+	protected function getLanguageFile($language) {}
+
+	protected function getLanguageCachePath($language) {}
 }
