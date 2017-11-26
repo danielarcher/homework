@@ -8,7 +8,7 @@ abstract class Application
 {
 	protected $id;
 
-	public function __construct($id)
+	public function __construct(string $id)
 	{
 		$this->setId($id);
 	}

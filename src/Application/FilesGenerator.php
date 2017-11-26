@@ -4,6 +4,7 @@ namespace Language\Application;
 
 use Language\Application\ITranslatableApplication;
 use Language\Handler\FileHandler;
+use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 class FilesGenerator
@@ -32,6 +33,15 @@ class FilesGenerator
 		return $this->application;
 	}
 
+	private function getLogger()
+	{
+		if (empty($this->logger)) {
+			return new Logger('Default');
+		}
+
+		return $this->logger;
+	}
+
 	public function setLogger(LoggerInterface $logger)
 	{
 		$this->logger = $logger;
@@ -39,10 +49,10 @@ class FilesGenerator
 
 	public function composeFiles()
 	{
-		$this->logger->debug('--Application: ' . $this->getApplication()->getId());
+		$this->getLogger()->debug('--Application: ' . $this->getApplication()->getId());
 		$languages = $this->getApplication()->getLanguages();
 		foreach ($languages as $language) {
-			$this->logger->debug('--Language: ' . $language);
+			$this->getLogger()->debug('--Language: ' . $language);
 			if (false == $this->generateFile($language)) {
 				throw new \LogicException('Unable to generate language file!');
 			}
