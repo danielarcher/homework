@@ -64,15 +64,10 @@ class LanguageBatchBo
 		echo "\nGetting applet language XMLs..\n";
 
 		foreach ($applets as $appletLanguageId) {
-			self::generateAppletXmlFile($appletLanguageId);
+			$applet = new Applet($appletLanguageId);
+			$applet->composeFiles();
 		}
 
 		echo "\nApplet language XMLs generated.\n";
-	}
-
-	protected static function generateAppletXmlFile($appletLanguageId)
-	{
-		$applet = new Applet($appletLanguageId);
-		$applet->generateXmlFiles();
 	}
 }

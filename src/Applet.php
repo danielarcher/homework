@@ -77,7 +77,7 @@ class Applet
 		return $result['data'];
 	}
 
-	public function generateXmlFiles()
+	public function composeFiles()
 	{
 		echo " Getting > {$this->getId()} language xmls..\n";
 		$languages = $this->getLanguages();
