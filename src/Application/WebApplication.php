@@ -3,18 +3,20 @@
 namespace Language\Application;
 
 use Language\ApiCall;
+use Language\Application\Application;
+use Language\Application\ITranslatableApplication;
 use Language\Config;
 use Language\Handler\ApiErrorHandler;
 
-class WebApplication extends GenericApplication
+class WebApplication extends Application implements ITranslatableApplication
 {
-	protected function getLanguages()
+	public function getLanguages()
 	{
 		$applications = Config::get('system.translated_applications');
 		return $applications[$this->getId()];
 	}
 
-	protected function getLanguageFile($language)
+	public function getLanguageFile($language)
 	{
 		$languageResponse = ApiCall::call(
 			'system_api',
@@ -36,7 +38,7 @@ class WebApplication extends GenericApplication
 		return $languageResponse['data'];
 	}
 
-	protected function getLanguageCachePath($language)
+	public function getLanguageCachePath($language)
 	{
 		return Config::get('system.paths.root') . '/cache/' . $this->getId(). '/' . $language . '.php';
 	}

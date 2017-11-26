@@ -3,6 +3,7 @@
 namespace Language;
 
 use Language\Application\AppletApplication;
+use Language\Application\FilesGenerator;
 use Language\Application\WebApplication;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -13,29 +14,21 @@ use Monolog\Logger;
 class LanguageBatchBo
 {
 	/**
-	 * Contains the applications which ones require translations.
-	 *
-	 * @var array
-	 */
-	protected static $applications = array();
-
-	/**
 	 * Starts the language file generation.
 	 *
 	 * @return void
 	 */
 	public static function generateLanguageFiles()
 	{
-		// The applications where we need to translate.
-		self::$applications = Config::get('system.translated_applications');
 		$logger = self::getLogger();
 		$logger->debug("Generating language files");
 
-		foreach (self::$applications as $applicationId => $languages) {
+		$applications = array_keys(Config::get('system.translated_applications'));
+		foreach ($applications as $applicationId) {
 			try {
-				$languageApplication = new WebApplication($applicationId);
-				$languageApplication->setLogger($logger);
-				$languageApplication->composeFiles();
+				$filesGenerator = new FilesGenerator(new WebApplication($applicationId));
+				$filesGenerator->setLogger($logger);
+				$filesGenerator->composeFiles();
 			} catch (\Exception $e) {
 				$logger->error($e->getMessage());
 			}
@@ -60,9 +53,9 @@ class LanguageBatchBo
 
 		foreach ($applets as $appletLanguageId) {
 			try {
-				$applet = new AppletApplication($appletLanguageId);
-				$applet->setLogger($logger);
-				$applet->composeFiles();
+				$filesGenerator = new FilesGenerator(new AppletApplication($appletLanguageId));
+				$filesGenerator->setLogger($logger);
+				$filesGenerator->composeFiles();
 			} catch (\Exception $e) {
 				$logger->error($e->getMessage());
 			}

@@ -3,12 +3,14 @@
 namespace Language\Application;
 
 use Language\ApiCall;
+use Language\Application\Application;
+use Language\Application\ITranslatableApplication;
 use Language\Config;
 use Language\Handler\ApiErrorHandler;
 
-class AppletApplication extends GenericApplication
+class AppletApplication extends Application implements ITranslatableApplication
 {
-	protected function getLanguages()
+	public function getLanguages()
 	{
 		$result = ApiCall::call(
 			'system_api',
@@ -30,15 +32,7 @@ class AppletApplication extends GenericApplication
 		return $result['data'];
 	}
 
-
-	/**
-	 * Gets a language xml for an applet.
-	 * 
-	 * @param string $language    The language identifier.
-	 *
-	 * @return string|false   The content of the language file or false if weren't able to get it.
-	 */
-	protected function getLanguageFile($language)
+	public function getLanguageFile($language)
 	{
 		$result = ApiCall::call(
 			'system_api',
@@ -64,7 +58,7 @@ class AppletApplication extends GenericApplication
 		return $result['data'];
 	}
 
-	protected function getLanguageCachePath($language)
+	public function getLanguageCachePath($language)
 	{
 		return Config::get('system.paths.root') . '/cache/flash/lang_' . $language . '.xml';
 	}
