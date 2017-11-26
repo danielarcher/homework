@@ -67,13 +67,13 @@ class Application
 
 	private function generateFile($content, $language)
 	{
-		$destination = $this->getLanguageCachePath($this->getId()) . $language . '.php';
+		$destination = $this->getLanguageCachePath($language);
 
 		return FileHandle::save($destination, $content);
 	}
 
-	public function getLanguageCachePath($language)
+	private function getLanguageCachePath($language)
 	{
-		return Config::get('system.paths.root') . '/cache/' . $this->getId(). '/';
+		return Config::get('system.paths.root') . '/cache/' . $this->getId(). '/' . $language . '.php';
 	}
 }

@@ -89,10 +89,22 @@ class Applet
 		}
 		$path = Config::get('system.paths.root') . '/cache/flash';
 		foreach ($languages as $language) {
-			$xmlContent = $this->getLanguageFile($language);
-			$xmlFile    = $path . '/lang_' . $language . '.xml';
-			FileHandle::save($xmlFile, $xmlContent);
+			$content = $this->getLanguageFile($language);
+			$this->generateFile($content, $language);
 		}
 		echo " < {$this->getId()} language xml cached.\n";
 	}
+
+	private function generateFile($content, $language)
+	{
+		$destination = $this->getLanguageCachePath($language);
+
+		return FileHandle::save($destination, $content);
+	}
+
+	private function getLanguageCachePath($language)
+	{
+		return Config::get('system.paths.root') . '/cache/flash/lang_' . $language . '.xml';
+	}
+
 }
