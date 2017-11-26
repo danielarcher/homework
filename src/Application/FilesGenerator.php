@@ -39,8 +39,10 @@ class FilesGenerator
 
 	public function composeFiles()
 	{
+		$this->logger->debug('--Application: ' . $this->getApplication()->getId());
 		$languages = $this->getApplication()->getLanguages();
 		foreach ($languages as $language) {
+			$this->logger->debug('--Language: ' . $language);
 			if (false == $this->generateFile($language)) {
 				throw new \LogicException('Unable to generate language file!');
 			}
