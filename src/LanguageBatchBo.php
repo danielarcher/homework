@@ -70,19 +70,6 @@ class LanguageBatchBo
 	}
 
 	/**
-	 * Gets the directory of the cached language files.
-	 *
-	 * @param string $application   The application.
-	 *
-	 * @return string   The directory of the cached language files.
-	 */
-	protected static function getLanguageCachePath($application)
-	{
-		$languageApplication = new Application($application);
-		return $languageApplication->getLanguageCachePath();
-	}
-
-	/**
 	 * Gets the language files for the applet and puts them into the cache.
 	 *
 	 * @throws Exception   If there was an error.
@@ -109,47 +96,5 @@ class LanguageBatchBo
 	{
 		$applet = new Applet($appletLanguageId);
 		$applet->generateXmlFiles();
-	}
-
-	/**
-	 * Gets the available languages for the given applet.
-	 *
-	 * @param string $applet   The applet identifier.
-	 *
-	 * @return array   The list of the available applet languages.
-	 */
-	protected static function getAppletLanguages($applet)
-	{
-		$applet = new Applet($applet);
-		return $applet->getLanguages();
-	}
-
-
-	/**
-	 * Gets a language xml for an applet.
-	 *
-	 * @param string $applet      The identifier of the applet.
-	 * @param string $language    The language identifier.
-	 *
-	 * @return string|false   The content of the language file or false if weren't able to get it.
-	 */
-	protected static function getAppletLanguageFile($applet, $language)
-	{
-		$applet = new Applet($applet);
-		return $applet->getLanguageFile($language);
-	}
-
-	/**
-	 * Checks the api call result.
-	 *
-	 * @param mixed  $result   The api call result to check.
-	 *
-	 * @throws Exception   If the api call was not successful.
-	 *
-	 * @return void
-	 */
-	protected static function checkForApiErrorResult($result)
-	{
-		ApiCallErrorVerifier::checkError($result);
 	}
 }
