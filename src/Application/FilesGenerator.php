@@ -9,8 +9,6 @@ use Psr\Log\LoggerInterface;
 
 class FilesGenerator
 {
-	protected $id;
-
 	protected $logger;
 
 	protected $application;
@@ -50,21 +48,28 @@ class FilesGenerator
 	public function composeFiles()
 	{
 		$this->getLogger()->debug('--Application: ' . $this->getApplication()->getId());
-		$languages = $this->getApplication()->getLanguages();
+		$languages = $this->getApplicationLanguages();
 		foreach ($languages as $language) {
 			$this->getLogger()->debug('--Language: ' . $language);
 			if (false == $this->generateFile($language)) {
 				throw new \LogicException('Unable to generate language file!');
 			}
 		}
+
+		return true;
 	}
 	
-	protected function generateFile(string $language)
+	private function generateFile(string $language)
 	{
 		$content = $this->getApplication()->getLanguageFile($language);
 		$destination = $this->getApplication()->getLanguageCachePath($language);
 
 		return FileHandler::save($destination, $content);
+	}
+
+	private function getApplicationLanguages()
+	{
+		return $this->getApplication()->getLanguages();
 	}
 
 }
