@@ -24,15 +24,8 @@ class LanguageBatchBo
 		$logger->debug("Generating language files");
 
 		$applications = array_keys(Config::get('system.translated_applications'));
-		foreach ($applications as $applicationId) {
-			try {
-				$filesGenerator = new FilesGenerator(new WebApplication($applicationId));
-				$filesGenerator->setLogger($logger);
-				$filesGenerator->composeFiles();
-			} catch (\Exception $e) {
-				$logger->error($e->getMessage());
-			}
-		}
+
+		self::generate($applications, WebApplication::class);
 	}
 
 	/**
@@ -49,19 +42,9 @@ class LanguageBatchBo
 			'memberapplet' => 'JSM2_MemberApplet',
 		);
 		$logger = self::getLogger();
-		$logger->debug("Getting applet language XMLs..");
+		$logger->debug("Generating applet language XMLs..");
 
-		foreach ($applets as $appletLanguageId) {
-			try {
-				$filesGenerator = new FilesGenerator(new AppletApplication($appletLanguageId));
-				$filesGenerator->setLogger($logger);
-				$filesGenerator->composeFiles();
-			} catch (\Exception $e) {
-				$logger->error($e->getMessage());
-			}
-		}
-
-		$logger->debug("Applet language XMLs generated.");
+		self::generate($applets, AppletApplication::class);
 	}
 
 	protected static function getLogger()
@@ -69,5 +52,19 @@ class LanguageBatchBo
 		$log = new Logger('LanguageBathBo');
 		$log->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
 		return $log;
+	}
+
+	protected static function generate($applications, $appClass)
+	{
+		$logger = self::getLogger();
+		foreach ($applications as $appId) {
+			try {
+				$filesGenerator = new FilesGenerator( new $appClass($appId));
+				$filesGenerator->setLogger($logger);
+				$filesGenerator->composeFiles();
+			} catch (\Exception $e) {
+				$logger->error($e->getMessage());
+			}
+		}
 	}
 }
