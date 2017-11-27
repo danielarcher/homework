@@ -10,6 +10,11 @@ class FileHandler
 			mkdir(dirname($destination), 0755, true);
 		}
 
+		if (false === is_writable($destination))
+		{
+			throw new \LogicException('Unable to write in: ' . $destination . '!');
+		}
+
 		if (strlen($content) !== file_put_contents($destination, $content)) {
 			throw new \LogicException('Unable to save file: ' . $destination . '!');
 		}

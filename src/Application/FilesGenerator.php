@@ -57,7 +57,7 @@ class FilesGenerator
 		$languages = $this->getApplicationLanguages();
 		foreach ($languages as $language) {
 			$this->getLogger()->debug('--Language: ' . $language);
-			if (true == $this->generateFile($language)) {
+			if (false == $this->generateFile($language)) {
 				throw new \LogicException(sprintf("Unable to save language [%s/%s] file!", 
 					$this->getApplication()->getId(), 
 					$language
