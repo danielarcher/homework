@@ -21,6 +21,7 @@ class FilesGenerator
 	public function __construct(ITranslatableApplication $application)
 	{
 		$this->application = $application;
+		$this->setLogger(new Logger('Default'));
 	}
 
 	/**
@@ -31,12 +32,13 @@ class FilesGenerator
 		return $this->application;
 	}
 
+	/**
+	 * return or create logger
+	 * 
+	 * @return LoggerInterface 
+	 */
 	private function getLogger()
 	{
-		if (empty($this->logger)) {
-			return new Logger('Default');
-		}
-
 		return $this->logger;
 	}
 
@@ -45,6 +47,10 @@ class FilesGenerator
 		$this->logger = $logger;
 	}
 
+	/**
+	 * Generate the files for the listed languages
+	 * @return bool
+	 */
 	public function composeFiles()
 	{
 		$this->getLogger()->debug('--Application: ' . $this->getApplication()->getId());
@@ -59,6 +65,11 @@ class FilesGenerator
 		return true;
 	}
 	
+	/**
+	 * Generate the files for the specific language
+	 * @param  string $language
+	 * @return bool
+	 */
 	private function generateFile(string $language)
 	{
 		$content = $this->getApplication()->getLanguageFile($language);
@@ -67,6 +78,10 @@ class FilesGenerator
 		return FileHandler::save($destination, $content);
 	}
 
+	/**
+	 * Get the required languages to generate files
+	 * @return array|false
+	 */
 	private function getApplicationLanguages()
 	{
 		return $this->getApplication()->getLanguages();
