@@ -10,6 +10,10 @@ use Language\Handler\ApiErrorHandler;
 
 class AppletApplication extends Application implements ITranslatableApplication
 {
+	/**
+	 * return the necessary languages to translate
+	 * @return array
+	 */
 	public function getLanguages()
 	{
 		$result = ApiCall::call(
@@ -32,6 +36,11 @@ class AppletApplication extends Application implements ITranslatableApplication
 		return $result['data'];
 	}
 
+	/**
+	 * return the languageFile to be created
+	 * @param  string $language 
+	 * @return string
+	 */
 	public function getLanguageFile(string $language)
 	{
 		$result = ApiCall::call(
@@ -58,6 +67,11 @@ class AppletApplication extends Application implements ITranslatableApplication
 		return $result['data'];
 	}
 
+	/**
+	 * return the path for the language cache
+	 * @param  string $language
+	 * @return string
+	 */
 	public function getLanguageCachePath(string $language)
 	{
 		return Config::get('system.paths.root') . '/cache/flash/lang_' . $language . '.xml';
