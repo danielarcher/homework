@@ -49,36 +49,35 @@ class FilesGenerator
 
 	/**
 	 * Generate the files for the listed languages
-	 * @return bool
+	 * @return void
 	 */
 	public function composeFiles()
 	{
 		$this->getLogger()->debug('--Application: ' . $this->getApplication()->getId());
 		$languages = $this->getApplicationLanguages();
+
 		foreach ($languages as $language) {
 			$this->getLogger()->debug('--Language: ' . $language);
-			if (false == $this->generateFile($language)) {
-				throw new \LogicException(sprintf("Unable to save language [%s/%s] file!", 
-					$this->getApplication()->getId(), 
-					$language
-				));
-			}
+			$this->generateFile($language);
 		}
-
-		return true;
 	}
 	
 	/**
 	 * Generate the files for the specific language
 	 * @param  string $language
-	 * @return bool
+	 * @return void
 	 */
 	private function generateFile(string $language)
 	{
 		$content = $this->getApplication()->getLanguageFile($language);
 		$destination = $this->getApplication()->getLanguageCachePath($language);
 
-		return FileHandler::save($destination, $content);
+		if (false === FileHandler::save($destination, $content)) {
+			throw new \LogicException(sprintf("Unable to save language [%s/%s] file!", 
+				$this->getApplication()->getId(), 
+				$language
+			));
+		}
 	}
 
 	/**
