@@ -49,7 +49,7 @@ class FilesGenerator
 
 	/**
 	 * Generate the files for the listed languages
-	 * @return void
+	 * @return bool|void
 	 */
 	public function composeFiles()
 	{
@@ -60,6 +60,8 @@ class FilesGenerator
 			$this->getLogger()->debug('--Language: ' . $language);
 			$this->generateFile($language);
 		}
+
+		return true;
 	}
 	
 	/**
