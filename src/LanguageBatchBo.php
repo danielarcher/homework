@@ -25,7 +25,11 @@ class LanguageBatchBo
 
 		$applications = array_keys(Config::get('system.translated_applications'));
 
-		self::generate($applications, WebApplication::class);
+		try {
+			self::generate($applications, WebApplication::class);
+		} catch (\Exception $e) {
+			$logger->error($e->getMessage());
+		}
 	}
 
 	/**
@@ -44,7 +48,11 @@ class LanguageBatchBo
 		$logger = self::getLogger();
 		$logger->debug("Generating applet language XMLs..");
 
-		self::generate($applets, AppletApplication::class);
+		try {
+			self::generate($applets, AppletApplication::class);
+		} catch (\Exception $e) {
+			$logger->error($e->getMessage());
+		}
 	}
 
 	/**
@@ -62,18 +70,21 @@ class LanguageBatchBo
 	 * Call the compose files method for the refered applications
 	 * @param  array  $applications Applications
 	 * @param  string $appClass     Translatable class of application type
-	 * @return void|false
+	 * @return void
 	 */
 	protected static function generate(array $applications, string $appClass)
 	{
-		$logger = self::getLogger();
+		if (false === class_exists($appClass)) {
+			throw new \InvalidArgumentException("Application class [{$appClass}] do not exists");
+		}
+
 		foreach ($applications as $appId) {
 			try {
 				$filesGenerator = new FilesGenerator( new $appClass($appId));
-				$filesGenerator->setLogger($logger);
+				$filesGenerator->setLogger(self::getLogger());
 				$filesGenerator->composeFiles();
 			} catch (\Exception $e) {
-				$logger->error($e->getMessage());
+				throw new \DomainException("Error composing translation files: ". $e->getMessage(), 1);
 			}
 		}
 	}
