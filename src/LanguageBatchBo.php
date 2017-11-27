@@ -47,6 +47,10 @@ class LanguageBatchBo
 		self::generate($applets, AppletApplication::class);
 	}
 
+	/**
+	 * Create a new logger
+	 * @return Monolog\Logger
+	 */
 	protected static function getLogger()
 	{
 		$log = new Logger('LanguageBathBo');
@@ -54,6 +58,12 @@ class LanguageBatchBo
 		return $log;
 	}
 
+	/**
+	 * Call the compose files method for the refered applications
+	 * @param  array  $applications Applications
+	 * @param  string $appClass     Translatable class of application type
+	 * @return void|false
+	 */
 	protected static function generate(array $applications, string $appClass)
 	{
 		$logger = self::getLogger();
