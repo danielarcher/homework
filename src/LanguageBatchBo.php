@@ -54,7 +54,7 @@ class LanguageBatchBo
 		return $log;
 	}
 
-	protected static function generate($applications, $appClass)
+	protected static function generate(array $applications, string $appClass)
 	{
 		$logger = self::getLogger();
 		foreach ($applications as $appId) {
