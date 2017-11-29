@@ -10,7 +10,7 @@ class FileHandler
 			mkdir(dirname($destination), 0755, true);
 		}
 
-		if (false === is_writable($destination))
+		if (false === is_writable(dirname($destination)))
 		{
 			throw new \LogicException('Unable to write in: ' . $destination . '!');
 		}
