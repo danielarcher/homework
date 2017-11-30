@@ -21,13 +21,13 @@ class LanguageBatchBo
 	 */
 	public function generateLanguageFiles()
 	{
-		$logger = self::getLogger();
+		$logger = $this->getLogger();
 		$logger->debug("Generating language files");
 
 		$applications = array_keys(Config::get('system.translated_applications'));
 
 		try {
-			self::generate($applications, WebApplication::class);
+			$this->generate($applications, WebApplication::class);
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}
