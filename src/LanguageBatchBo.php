@@ -3,7 +3,7 @@
 namespace Language;
 
 use Language\Application\AppletApplication;
-use Language\Application\TranslationGenerator;
+use Language\Application\Translator\TranslationGenerator;
 use Language\Application\WebApplication;
 use Language\Application\Writer\FileWriter;
 use Monolog\Handler\StreamHandler;
@@ -25,7 +25,7 @@ class LanguageBatchBo
 		$logger->debug("Generating language files");
 
 		$applications = array_keys(Config::get('system.translated_applications'));
-
+		$logger->debug(json_encode($applications));
 		try {
 			$this->generate($applications, WebApplication::class);
 		} catch (\Exception $e) {
@@ -48,7 +48,8 @@ class LanguageBatchBo
 		);
 		$logger = $this->getLogger();
 		$logger->debug("Generating applet language XMLs..");
-
+		$logger->debug(json_encode($applets));
+		
 		try {
 			$this->generate($applets, AppletApplication::class);
 		} catch (\Exception $e) {

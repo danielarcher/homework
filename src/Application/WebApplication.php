@@ -4,7 +4,7 @@ namespace Language\Application;
 
 use Language\ApiCall;
 use Language\Application\Application;
-use Language\Application\TranslatableInterface;
+use Language\Application\Translator\TranslatableInterface;
 use Language\Config;
 use Language\Handler\ApiErrorHandler;
 
