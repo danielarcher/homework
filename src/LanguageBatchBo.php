@@ -81,14 +81,15 @@ class LanguageBatchBo
 			throw new \InvalidArgumentException("Application class [{$appClass}] do not exists");
 		}
 
+		$logger = $this->getLogger();
+
 		foreach ($applications as $appId) {
 			try {
-				
 				$languageDiscover = new LanguageDiscover();
 				$app = new $appClass($appId, $languageDiscover);
-				$writer = new FileWriter();
+				$logger->debug('--Application: ' . $app->getId());
 
-				$translator = new TranslationGenerator( $app, $writer, $this->getLogger());
+				$translator = new TranslationGenerator($app, new FileWriter());
 				$translator->composeFiles();
 			} catch (\Exception $e) {
 				throw new \DomainException("Error composing translation files: ". $e->getMessage(), 1);
