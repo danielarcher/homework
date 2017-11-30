@@ -44,15 +44,15 @@ class LanguageBatchBo
 	public function generateAppletLanguageXmlFiles()
 	{
 		// List of the applets [directory => applet_id].
-		$applets = array(
+		$applications = array(
 			'memberapplet' => 'JSM2_MemberApplet',
 		);
 		$logger = $this->getLogger();
 		$logger->debug("Generating applet language XMLs..");
-		$logger->debug(json_encode($applets));
+		$logger->debug(json_encode($applications));
 		
 		try {
-			$this->generate($applets, AppletApplication::class);
+			$this->generate($applications, AppletApplication::class);
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}

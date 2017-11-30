@@ -30,9 +30,8 @@ class TranslationGenerator
 	public function composeFiles()
 	{
 		$languages = $this->application->getLanguages();
-
 		foreach ($languages as $language) {
-			$this->generateFile($language);
+			$this->writeFile($language);
 		}
 
 		return true;
@@ -43,12 +42,12 @@ class TranslationGenerator
 	 * @param  string $language
 	 * @return void
 	 */
-	private function generateFile(string $language)
+	private function writeFile($language)
 	{
-		$content = $this->application->getLanguageFile($language);
-		$destination = $this->application->getLanguageCachePath($language);
-
-		$this->writer->write($destination, $content);
+		return $this->writer->write(
+			$this->application->getLanguageCachePath($language), 
+			$this->application->getLanguageFile($language)
+		);
 	}
 
 }

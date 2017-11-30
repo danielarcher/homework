@@ -14,7 +14,7 @@ class WebApplication extends Application implements TranslatableInterface
 	 * return the necessary languages to translate
 	 * @return array
 	 */
-	public function getLanguages()
+	public function loadLanguages()
 	{
 		$applications = Config::get('system.translated_applications');
 		return $applications[$this->getId()];
@@ -27,7 +27,10 @@ class WebApplication extends Application implements TranslatableInterface
 	 */
 	public function getLanguageFile(string $language)
 	{
-		return $this->languageDiscover->getFile($language);
+		$parameters = array(
+			'language' => $language
+		);
+		return $this->languageDiscover->getFile('getLanguageFile', $parameters);
 	}
 
 	/**

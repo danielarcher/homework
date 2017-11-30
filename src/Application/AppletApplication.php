@@ -14,7 +14,7 @@ class AppletApplication extends Application implements TranslatableInterface
 	 * return the necessary languages to translate
 	 * @return array
 	 */
-	public function getLanguages()
+	public function loadLanguages()
 	{
 		$result = ApiCall::call(
 			'system_api',
@@ -43,7 +43,11 @@ class AppletApplication extends Application implements TranslatableInterface
 	 */
 	public function getLanguageFile(string $language)
 	{
-		return $this->languageDiscover->getAppletFile($this, $language);
+		$parameters = array(
+			'applet' => $this->getId(),
+			'language' => $language
+		);
+		return $this->languageDiscover->getFile('getAppletLanguageFile', $parameters);
 	}
 
 	/**
@@ -55,5 +59,7 @@ class AppletApplication extends Application implements TranslatableInterface
 	{
 		return Config::get('system.paths.root') . '/cache/flash/lang_' . $language . '.xml';
 	}
+
+
 
 }

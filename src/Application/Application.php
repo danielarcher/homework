@@ -8,16 +8,24 @@ abstract class Application
 {
 	protected $id;
 
-	protected $languageDiscover;
+	protected $languages;
 
 	public function __construct(string $id, LanguageDiscover $languageDiscover)
 	{
 		$this->id = $id;
 		$this->languageDiscover = $languageDiscover;
+		$this->languages = $this->loadLanguages();
 	}
 
 	public function getId()
 	{
 		return $this->id;
 	}
+
+	public function getLanguages()
+	{
+		return $this->languages;
+	}
+
+	public function loadLanguages() {}
 }
