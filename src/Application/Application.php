@@ -2,8 +2,6 @@
 
 namespace Language\Application;
 
-use Language\Handler\FileHandler;
-
 abstract class Application
 {
 	protected $id;

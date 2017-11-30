@@ -4,11 +4,11 @@ namespace Language\Application;
 
 use Language\ApiCall;
 use Language\Application\Application;
-use Language\Application\ITranslatableApplication;
+use Language\Application\TranslatableInterface;
 use Language\Config;
 use Language\Handler\ApiErrorHandler;
 
-class AppletApplication extends Application implements ITranslatableApplication
+class AppletApplication extends Application implements TranslatableInterface
 {
 	/**
 	 * return the necessary languages to translate

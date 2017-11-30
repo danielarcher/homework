@@ -2,7 +2,7 @@
 
 namespace Language\Application;
 
-interface ITranslatableApplication
+interface TranslatableInterface
 {
 	public function getLanguages();
 

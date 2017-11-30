@@ -3,8 +3,9 @@
 namespace Language;
 
 use Language\Application\AppletApplication;
-use Language\Application\FilesGenerator;
+use Language\Application\TranslationGenerator;
 use Language\Application\WebApplication;
+use Language\Application\Writer\FileWriter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
@@ -45,11 +46,11 @@ class LanguageBatchBo
 		$applets = array(
 			'memberapplet' => 'JSM2_MemberApplet',
 		);
-		$logger = self::getLogger();
+		$logger = $this->getLogger();
 		$logger->debug("Generating applet language XMLs..");
 
 		try {
-			self::generate($applets, AppletApplication::class);
+			$this->generate($applets, AppletApplication::class);
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}
@@ -80,9 +81,8 @@ class LanguageBatchBo
 
 		foreach ($applications as $appId) {
 			try {
-				$filesGenerator = new FilesGenerator( new $appClass($appId));
-				$filesGenerator->setLogger(self::getLogger());
-				$filesGenerator->composeFiles();
+				$translator = new TranslationGenerator( new $appClass($appId), new FileWriter(), $this->getLogger());
+				$translator->composeFiles();
 			} catch (\Exception $e) {
 				throw new \DomainException("Error composing translation files: ". $e->getMessage(), 1);
 			}
