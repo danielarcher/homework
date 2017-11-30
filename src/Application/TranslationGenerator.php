@@ -13,6 +13,8 @@ class TranslationGenerator
 
 	protected $application;
 
+	protected $writer;
+
 	/**
 	 * Create new file generator
 	 * 
@@ -32,7 +34,7 @@ class TranslationGenerator
 	public function composeFiles()
 	{
 		$this->logger->debug('--Application: ' . $this->application->getId());
-		$languages = $this->getApplicationLanguages();
+		$languages = $this->application->getLanguages();
 
 		foreach ($languages as $language) {
 			$this->logger->debug('--Language: ' . $language);
@@ -58,15 +60,6 @@ class TranslationGenerator
 				$language
 			));
 		}
-	}
-
-	/**
-	 * Get the required languages to generate files
-	 * @return array|false
-	 */
-	private function getApplicationLanguages()
-	{
-		return $this->application->getLanguages();
 	}
 
 }
