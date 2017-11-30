@@ -18,7 +18,7 @@ class LanguageBatchBo
 	 *
 	 * @return void
 	 */
-	public static function generateLanguageFiles()
+	public function generateLanguageFiles()
 	{
 		$logger = self::getLogger();
 		$logger->debug("Generating language files");
@@ -39,7 +39,7 @@ class LanguageBatchBo
 	 *
 	 * @return void
 	 */
-	public static function generateAppletLanguageXmlFiles()
+	public function generateAppletLanguageXmlFiles()
 	{
 		// List of the applets [directory => applet_id].
 		$applets = array(
@@ -59,7 +59,7 @@ class LanguageBatchBo
 	 * Create a new logger
 	 * @return Monolog\Logger
 	 */
-	protected static function getLogger()
+	protected function getLogger()
 	{
 		$log = new Logger('LanguageBathBo');
 		$log->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
@@ -72,7 +72,7 @@ class LanguageBatchBo
 	 * @param  string $appClass     Translatable class of application type
 	 * @return void
 	 */
-	protected static function generate(array $applications, string $appClass)
+	protected function generate(array $applications, string $appClass)
 	{
 		if (false === class_exists($appClass)) {
 			throw new \InvalidArgumentException("Application class [{$appClass}] do not exists");
