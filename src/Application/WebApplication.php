@@ -27,24 +27,7 @@ class WebApplication extends Application implements TranslatableInterface
 	 */
 	public function getLanguageFile(string $language)
 	{
-		$result = ApiCall::call(
-			'system_api',
-			'language_api',
-			array(
-				'system' => 'LanguageFiles',
-				'action' => 'getLanguageFile'
-			),
-			array('language' => $language)
-		);
-
-		try {
-			ApiErrorHandler::checkError($result);
-		}
-		catch (\Exception $e) {
-			throw new \Exception('Error during getting language file: (' . $this->getId() . '/' . $language . ') ' . $e->getMessage());
-		}
-
-		return $result['data'];
+		return $this->languageDiscover->getFile($language);
 	}
 
 	/**

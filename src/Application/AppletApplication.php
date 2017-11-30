@@ -43,28 +43,7 @@ class AppletApplication extends Application implements TranslatableInterface
 	 */
 	public function getLanguageFile(string $language)
 	{
-		$result = ApiCall::call(
-			'system_api',
-			'language_api',
-			array(
-				'system' => 'LanguageFiles',
-				'action' => 'getAppletLanguageFile'
-			),
-			array(
-				'applet' => $this->getId(),
-				'language' => $language
-			)
-		);
-
-		try {
-			ApiErrorHandler::checkError($result);
-		}
-		catch (\Exception $e) {
-			throw new \Exception('Getting language xml for applet: (' . $this->getId() . ') on language: (' . $language . ') was unsuccessful: '
-				. $e->getMessage());
-		}
-
-		return $result['data'];
+		return $this->languageDiscover->getAppletFile($this, $language);
 	}
 
 	/**

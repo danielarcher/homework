@@ -6,6 +6,7 @@ use Language\Application\AppletApplication;
 use Language\Application\Translator\TranslationGenerator;
 use Language\Application\WebApplication;
 use Language\Application\Writer\FileWriter;
+use Language\Application\Discover\LanguageDiscover;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
@@ -82,7 +83,12 @@ class LanguageBatchBo
 
 		foreach ($applications as $appId) {
 			try {
-				$translator = new TranslationGenerator( new $appClass($appId), new FileWriter(), $this->getLogger());
+				
+				$languageDiscover = new LanguageDiscover();
+				$app = new $appClass($appId, $languageDiscover);
+				$writer = new FileWriter();
+
+				$translator = new TranslationGenerator( $app, $writer, $this->getLogger());
 				$translator->composeFiles();
 			} catch (\Exception $e) {
 				throw new \DomainException("Error composing translation files: ". $e->getMessage(), 1);

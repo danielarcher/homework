@@ -2,13 +2,18 @@
 
 namespace Language\Application;
 
+use Language\Application\Discover\LanguageDiscover;
+
 abstract class Application
 {
 	protected $id;
 
-	public function __construct(string $id)
+	protected $languageDiscover;
+
+	public function __construct(string $id, LanguageDiscover $languageDiscover)
 	{
-		$this->setId($id);
+		$this->id = $id;
+		$this->languageDiscover = $languageDiscover;
 	}
 
 	private function setId($id)
