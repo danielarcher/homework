@@ -2,20 +2,22 @@
 
 namespace Language\Application;
 
+use Language\ApiCall;
+
 class Api
 {
-	public function get($target, $mode, $getParameters, $postParameters)
+	public function get(string $target, string $mode, array $getParameters, array $postParameters)
 	{
-		$return = ApiCall::call($target, $mode, $getParameters, $postParameters);
+		$result = ApiCall::call($target, $mode, $getParameters, $postParameters);
 		
-		if (false === $this->isValidReturn($return)) {
+		if (false === $this->isValidResult($result)) {
 			return false;
 		}
 
-		return $return['data'];
+		return $result['data'];
 	}
 
-	public function isValidReturn($return)
+	public function isValidResult($result)
 	{
 		if ($result === false || !isset($result['status'])) {
 			throw new \InvalidArgumentException('Error during the api call: return is empty.');
