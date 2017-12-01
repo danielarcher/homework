@@ -4,9 +4,10 @@ namespace Language;
 
 use Language\Application\Api;
 use Language\Application\Config;
-use Language\Application\Resource\WebResource;
-use Language\Application\Resource\AppletResource;
+use Language\Application\Factory\TranslatorFactory;
 use Language\Application\Generator\TranslationGenerator;
+use Language\Application\Resource\AppletResource;
+use Language\Application\Resource\WebResource;
 use Language\Application\Writer\FileWriter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -34,8 +35,9 @@ class LanguageBatchBo
 		try {
 			foreach ($applications as $app) {
 				$logger->debug("--Application " . $app);
-				$translator = new TranslationGenerator($app, $resource, new FileWriter());
-				$translator->composeFiles();
+				$factory = new TranslatorFactory($app, $resource, new FileWriter());
+				$translator = $factory->create();
+				$translator->run();
 			}
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
@@ -72,8 +74,9 @@ class LanguageBatchBo
 		try {
 			foreach ($applications as $app) {
 				$logger->debug("--Applet " . $app);
-				$translator = new TranslationGenerator($app, $resource, new FileWriter());
-				$translator->composeFiles();
+				$factory = new TranslatorFactory($app, $resource, new FileWriter());
+				$translator = $factory->create();
+				$translator->run();
 			}
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());

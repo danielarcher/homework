@@ -1,6 +1,8 @@
 <?php 
 
-namespace Language
+namespace Language\Application;
+
+use Language\Application\Writer\WriterInterface;
 
 class Translator
 {
@@ -11,6 +13,7 @@ class Translator
 	public function __construct(string $app, WriterInterface $writer)
 	{
 		$this->app = $app;
+		$this->writer = $writer;
 	}
 
 	public function addLanguage(Language $language) {
@@ -19,9 +22,9 @@ class Translator
 
 	public function run()
 	{
-		foreach ($languages as $language)
+		foreach ($this->languages as $language)
 		{
-			$writer->write($language->get($id), $language->getContent());
+			$this->writer->write($language->getCacheFile(), $language->getContent());
 		}
 	}
 }
