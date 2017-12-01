@@ -1,6 +1,6 @@
 <?php 
 
-namespace Language\Application\Translator;
+namespace Language\Application\Generator;
 
 use Language\Application\Resource\ResourceInterface;
 use Language\Application\Writer\WriterInterface;

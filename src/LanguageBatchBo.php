@@ -6,7 +6,7 @@ use Language\Application\Api;
 use Language\Application\Config;
 use Language\Application\Resource\WebResource;
 use Language\Application\Resource\AppletResource;
-use Language\Application\Translator\TranslationGenerator;
+use Language\Application\Generator\TranslationGenerator;
 use Language\Application\Writer\FileWriter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -60,7 +60,7 @@ class LanguageBatchBo
 		// List of the applets [directory => applet_id].
 		
 		$logger = $this->getLogger();
-		$logger->debug("Generating language files");
+		$logger->debug("Generating applet language files");
 
 		$config = new Config();
 		$resource = new AppletResource($config, new Api());
