@@ -5,16 +5,27 @@ use PHPUnit\Framework\TestCase;
 
 class FileWriterTest extends TestCase
 {
-	public function testWrite()
+	/**
+	 * @dataProvider filesProvider
+	 */
+	public function testWrite($file, $content)
 	{
 		$writer = new FileWriter();
-		$writer->write('testFile.txt', 'mycontent');
+		$writer->write($file, $content);
 
-		$this->assertEquals(file_get_contents('testFile.txt'), 'mycontent');
+		$this->assertEquals(file_get_contents($file), $content);
+	}
+
+	public function filesProvider()
+	{
+		return [
+			1 => array('testFolder/testFile.txt', 'my content')
+		];
 	}
 
 	public function tearDown()
 	{
-		unlink('testFile.txt');
+		unlink('testFolder/testFile.txt');
+		rmdir('testFolder');
 	}
 }
