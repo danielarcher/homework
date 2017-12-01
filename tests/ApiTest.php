@@ -16,20 +16,20 @@ class ApiTest extends TestCase
 	{
 		$api = new Api();
 		$this->expectException(InvalidArgumentException::class);
-		$api->get('','',array(),array());
+		$api->validateResult(array());
 	}
 
 	public function testInvalidStatus()
 	{
 		$api = new Api();
 		$this->expectException(LogicException::class);
-		$api->isValidResult(['status'=>'error']);
+		$api->validateResult(['status'=>'error']);
 	}
 
 	public function testNullReturn()
 	{
 		$api = new Api();
 		$this->expectException(LogicException::class);
-		$api->isValidResult(null);
+		$api->validateResult(null);
 	}
 }
