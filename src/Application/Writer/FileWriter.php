@@ -4,18 +4,19 @@ namespace Language\Application\Writer;
 
 class FileWriter implements WriterInterface
 {
-	public function write($destination, $content)
+	public function write($file, $content)
 	{
-		if (!is_dir(dirname($dirname)) {
-			mkdir(dirname($dirname, 0755, true);
+		if (false === is_writable(dirname($file))) {
+			throw new \LogicException('Unable to write in: ' . $file . '!');
 		}
 
-		if (false === is_writable(dirname($dirname)) {
-			throw new \LogicException('Unable to write in: ' . $destination . '!');
+		if (!is_dir(dirname($file))) {
+			mkdir(dirname($file), 0755, true);
 		}
 
-		if (strlen($content) !== file_put_contents($destination, $content)) {
-			throw new \LogicException('Unable to save file: ' . $destination . '!');
+
+		if (strlen($content) !== file_put_contents($file, $content)) {
+			throw new \LogicException('Unable to save file: ' . $file . '!');
 		}
 
 		return true;
