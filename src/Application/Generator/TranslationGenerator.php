@@ -34,23 +34,13 @@ class TranslationGenerator
 	{
 		$languages = $this->resource->getLanguages($this->app);
 		foreach ($languages as $language) {
-			$this->writeFile($language);
+			$destination = $this->resource->getLanguageCachePath($this->app, $language);
+			$content = $this->resource->getLanguageFile($this->app, $language);
+
+			$this->writer->write($destination, $content);
 		}
 
 		return true;
-	}
-	
-	/**
-	 * Generate the files for the specific language
-	 * @param  string $language
-	 * @return void
-	 */
-	private function writeFile($language)
-	{
-		return $this->writer->write(
-			$this->resource->getLanguageCachePath($this->app, $language), 
-			$this->resource->getLanguageFile($this->app, $language)
-		);
 	}
 
 }

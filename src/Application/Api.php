@@ -10,14 +10,10 @@ class Api
 	{
 		$result = ApiCall::call($target, $mode, $getParameters, $postParameters);
 		
-		if (false === $this->isValidResult($result)) {
-			return false;
-		}
-
-		return $result['data'];
+		return $this->validateResult($result);
 	}
 
-	public function isValidResult($result)
+	public function validateResult($result)
 	{
 		if ($result === false || !isset($result['status'])) {
 			throw new \InvalidArgumentException('Error during the api call: return is empty.');
@@ -34,6 +30,6 @@ class Api
 			throw new \InvalidArgumentException('Error in api response: content is empty.');
 		}
 
-		return true;
+		return $result['data'];
 	}
 }
