@@ -2,19 +2,17 @@
 
 namespace Language\Application;
 
-use Language\Application\Discover\LanguageDiscover;
+use Language\Application\Resource\ResourceInterface;
 
-abstract class Application
+class Application
 {
 	protected $id;
 
 	protected $languages;
 
-	public function __construct(string $id, LanguageDiscover $languageDiscover)
+	public function __construct(ResourceInterface $resource)
 	{
 		$this->id = $id;
-		$this->languageDiscover = $languageDiscover;
-		$this->languages = $this->loadLanguages();
 	}
 
 	public function getId()
@@ -27,5 +25,7 @@ abstract class Application
 		return $this->languages;
 	}
 
-	public function loadLanguages() {}
+	public function loadLanguages() {
+		$this->languages = $this->resource->getLanguages();
+	}
 }

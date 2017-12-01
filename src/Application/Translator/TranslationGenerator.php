@@ -2,7 +2,7 @@
 
 namespace Language\Application\Translator;
 
-use Language\Application\Translator\TranslatableInterface;
+use Language\Application\Resource\ResourceInterface;
 use Language\Application\Writer\WriterInterface;
 use Psr\Log\LoggerInterface;
 
@@ -17,9 +17,10 @@ class TranslationGenerator
 	 * 
 	 * @param TranslatableInterface $application 
 	 */
-	public function __construct(TranslatableInterface $application, WriterInterface $writer)
+	public function __construct(atring $app, ResourceInterface $resource, WriterInterface $writer)
 	{
-		$this->application = $application;
+		$this->app = $app;
+		$this->resource = $resource;
 		$this->writer = $writer;
 	}
 
@@ -29,7 +30,7 @@ class TranslationGenerator
 	 */
 	public function composeFiles()
 	{
-		$languages = $this->application->getLanguages();
+		$languages = $this->resource->getLanguages($this->app);
 		foreach ($languages as $language) {
 			$this->writeFile($language);
 		}
@@ -45,8 +46,8 @@ class TranslationGenerator
 	private function writeFile($language)
 	{
 		return $this->writer->write(
-			$this->application->getLanguageCachePath($language), 
-			$this->application->getLanguageFile($language)
+			$this->resource->getLanguageCachePath($language), 
+			$this->resource->getLanguageFile($language)
 		);
 	}
 

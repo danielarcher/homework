@@ -2,11 +2,10 @@
 
 namespace Language;
 
-use Language\Application\AppletApplication;
+use Language\Application\Application;
+use Language\Application\Resource\WebResource;
 use Language\Application\Translator\TranslationGenerator;
-use Language\Application\WebApplication;
 use Language\Application\Writer\FileWriter;
-use Language\Application\Discover\LanguageDiscover;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
@@ -25,13 +24,25 @@ class LanguageBatchBo
 		$logger = $this->getLogger();
 		$logger->debug("Generating language files");
 
-		$applications = array_keys(Config::get('system.translated_applications'));
-		$logger->debug(json_encode($applications));
+		$config = new Config();
+		$resource = new WebResource($config, new Api());
+
+		$applications = $this->getWebApplications($config);
+		
 		try {
-			$this->generate($applications, WebApplication::class);
+			foreach ($applications as $app) {
+				$translator = new TranslationGenerator($app, $resource, new FileWriter())
+				$translator->generate();
+			}
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}
+	}
+
+	public function getWebApplications(Config $config)
+	{
+		$apps = $config->get('system.translated_applications');
+		return array_keys($apps);
 	}
 
 	/**

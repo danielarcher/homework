@@ -15,7 +15,7 @@ class FileWriter implements WriterInterface
 		return true;
 	}
 
-	private function prepareDirectory($dirname)
+	public function prepareDirectory($dirname)
 	{
 		if (!is_dir($dirname)) {
 			mkdir($dirname, 0755, true);

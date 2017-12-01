@@ -4,6 +4,7 @@ namespace Language\Application\Resource;
 
 use Language\Application\Api;
 use Language\Application\Config;
+use Language\Application\Resource\ResourceInterface;
 
 class AppletResource implements ResourceInterface
 {
@@ -11,6 +12,16 @@ class AppletResource implements ResourceInterface
 	{
 		$this->config = $config;
 		$this->api = $api;
+	}
+
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
+	public function getApi()
+	{
+		return $this->api;
 	}
 
 	public function getLanguages(string $appId)
@@ -39,11 +50,11 @@ class AppletResource implements ResourceInterface
 				'applet' => $appId,
 				'language' => $language
 			)
-		)
+		);
 	}
 
 	public function getLanguageCachePath(string $language)
 	{
-		return $this->config->get('system.paths.root') . . '/cache/flash/lang_' . $language . '.xml';
+		return $this->config->get('system.paths.root') . '/cache/flash/lang_' . $language . '.xml';
 	}
 }
