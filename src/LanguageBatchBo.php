@@ -28,9 +28,9 @@ class LanguageBatchBo
 
 		$config = new Config();
 		$resource = new WebResource($config, new Api());
-		
+
 		$applications = $this->getWebApplications($config);
-		
+
 		try {
 			foreach ($applications as $app) {
 				$logger->debug("--Application " . $app);
@@ -71,6 +71,7 @@ class LanguageBatchBo
 		
 		try {
 			foreach ($applications as $app) {
+				$logger->debug("--Applet " . $app);
 				$translator = new TranslationGenerator($app, $resource, new FileWriter());
 				$translator->composeFiles();
 			}
@@ -88,33 +89,5 @@ class LanguageBatchBo
 		$log = new Logger('LanguageBathBo');
 		$log->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
 		return $log;
-	}
-
-	/**
-	 * Call the compose files method for the refered applications
-	 * @param  array  $applications Applications
-	 * @param  string $appClass     Translatable class of application type
-	 * @return void
-	 */
-	protected function generate(array $applications, string $appClass)
-	{
-		if (false === class_exists($appClass)) {
-			throw new \InvalidArgumentException("Application class [{$appClass}] do not exists");
-		}
-
-		$logger = $this->getLogger();
-
-		foreach ($applications as $appId) {
-			try {
-				$languageDiscover = new LanguageDiscover();
-				$app = new $appClass($appId, $languageDiscover);
-				$logger->debug('--Application: ' . $app->getId());
-
-				$translator = new TranslationGenerator($app, new FileWriter());
-				$translator->composeFiles();
-			} catch (\Exception $e) {
-				throw new \DomainException("Error composing translation files: ". $e->getMessage(), 1);
-			}
-		}
 	}
 }
