@@ -2,20 +2,34 @@
 
 namespace Language\Application\Resource;
 
+use Language\Application\Api;
+use Language\Application\Config;
+use Language\Application\Resource\ResourceInterface;
+
 class WebResource implements ResourceInterface
 {
-	public function __construct($config, $api)
+	public function __construct(Config $config, Api $api)
 	{
 		$this->config = $config;
 		$this->api = $api;
 	}
 
-	public function getLanguages($appId)
+	public function getConfig()
 	{
-		return $this->config->get('system.translated_applications')[$app->getId()];
+		return $this->config;
 	}
 
-	public function getLanguageFile($appId, $language)
+	public function getApi()
+	{
+		return $this->api;
+	}
+
+	public function getLanguages(string $appId)
+	{
+		return $this->config->get('system.translated_applications')[$appId];
+	}
+
+	public function getLanguageFile(string $appId, string $language)
 	{
 		return $this->api->get(
 			'system_api',
@@ -27,6 +41,11 @@ class WebResource implements ResourceInterface
 			array(
 				'language' => $language
 			)
-		)
+		);
+	}
+
+	public function getLanguageCachePath(string $appId, string $language)
+	{
+		return $this->config->get('system.paths.root') . '/cache/' . $appId. '/' . $language . '.php';
 	}
 }

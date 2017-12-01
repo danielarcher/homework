@@ -2,8 +2,10 @@
 
 namespace Language;
 
-use Language\Application\Application;
+use Language\Application\Api;
+use Language\Application\Config;
 use Language\Application\Resource\WebResource;
+use Language\Application\Resource\AppletResource;
 use Language\Application\Translator\TranslationGenerator;
 use Language\Application\Writer\FileWriter;
 use Monolog\Handler\StreamHandler;
@@ -26,13 +28,14 @@ class LanguageBatchBo
 
 		$config = new Config();
 		$resource = new WebResource($config, new Api());
-
+		
 		$applications = $this->getWebApplications($config);
 		
 		try {
 			foreach ($applications as $app) {
-				$translator = new TranslationGenerator($app, $resource, new FileWriter())
-				$translator->generate();
+				$logger->debug("--Application " . $app);
+				$translator = new TranslationGenerator($app, $resource, new FileWriter());
+				$translator->composeFiles();
 			}
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
@@ -55,15 +58,22 @@ class LanguageBatchBo
 	public function generateAppletLanguageXmlFiles()
 	{
 		// List of the applets [directory => applet_id].
+		
+		$logger = $this->getLogger();
+		$logger->debug("Generating language files");
+
+		$config = new Config();
+		$resource = new AppletResource($config, new Api());
+
 		$applications = array(
 			'memberapplet' => 'JSM2_MemberApplet',
 		);
-		$logger = $this->getLogger();
-		$logger->debug("Generating applet language XMLs..");
-		$logger->debug(json_encode($applications));
 		
 		try {
-			$this->generate($applications, AppletApplication::class);
+			foreach ($applications as $app) {
+				$translator = new TranslationGenerator($app, $resource, new FileWriter());
+				$translator->composeFiles();
+			}
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}

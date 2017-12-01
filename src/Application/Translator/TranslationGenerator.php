@@ -8,7 +8,9 @@ use Psr\Log\LoggerInterface;
 
 class TranslationGenerator
 {
-	protected $application;
+	protected $app;
+
+	protected $resource;
 
 	protected $writer;
 
@@ -17,7 +19,7 @@ class TranslationGenerator
 	 * 
 	 * @param TranslatableInterface $application 
 	 */
-	public function __construct(atring $app, ResourceInterface $resource, WriterInterface $writer)
+	public function __construct(string $app, ResourceInterface $resource, WriterInterface $writer)
 	{
 		$this->app = $app;
 		$this->resource = $resource;
@@ -46,8 +48,8 @@ class TranslationGenerator
 	private function writeFile($language)
 	{
 		return $this->writer->write(
-			$this->resource->getLanguageCachePath($language), 
-			$this->resource->getLanguageFile($language)
+			$this->resource->getLanguageCachePath($this->app, $language), 
+			$this->resource->getLanguageFile($this->app, $language)
 		);
 	}
 

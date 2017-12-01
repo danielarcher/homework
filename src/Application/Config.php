@@ -4,8 +4,8 @@ namespace Language\Application;
 
 class Config
 {
-	public function get($key)
+	public function get(string $key)
 	{
-		return Config::get($key);
+		return \Language\Config::get($key);
 	}
 }

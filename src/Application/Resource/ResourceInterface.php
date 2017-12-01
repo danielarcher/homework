@@ -13,6 +13,6 @@ interface ResourceInterface
 
 	public function getLanguageFile(string $appId, string $language);
 
-	public function getLanguageCachePath(string $language);
+	public function getLanguageCachePath(string $appId, string $language);
 	
 }

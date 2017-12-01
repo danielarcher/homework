@@ -53,7 +53,7 @@ class AppletResource implements ResourceInterface
 		);
 	}
 
-	public function getLanguageCachePath(string $language)
+	public function getLanguageCachePath(string $appId, string $language)
 	{
 		return $this->config->get('system.paths.root') . '/cache/flash/lang_' . $language . '.xml';
 	}
