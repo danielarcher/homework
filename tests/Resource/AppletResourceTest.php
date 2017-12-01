@@ -16,4 +16,18 @@ class AppletResourceTest extends TestCase
 		$this->assertInstanceOf(Config::class, $appletResource->getConfig());
 		$this->assertInstanceOf(Api::class, $appletResource->getApi());
 	}
+
+	public function testGetLanguagesSuccess()
+	{
+		$config = $this->createMock(Config::class);
+		$api = $this->getMockBuilder(Api::class)
+					->getMock();
+	    $api->expects($this->exactly(1))
+			->method('get')
+			->will($this->returnValue(['en', 'br']));
+		
+
+		$appletResource = new AppletResource($config, $api);
+		$this->assertEquals(['en','br'], $appletResource->getLanguages(''));
+	}
 }
