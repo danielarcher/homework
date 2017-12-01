@@ -22,6 +22,10 @@ class Translator
 
 	public function run()
 	{
+		if (empty($this->languages)) {
+			return false;
+		}
+
 		foreach ($this->languages as $language)
 		{
 			$this->writer->write($language->getCacheFile(), $language->getContent());

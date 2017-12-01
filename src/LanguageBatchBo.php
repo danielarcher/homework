@@ -7,6 +7,7 @@ use Language\Application\Config;
 use Language\Application\Factory\TranslatorFactory;
 use Language\Application\Generator\TranslationGenerator;
 use Language\Application\Resource\AppletResource;
+use Language\Application\Resource\ResourceInterface;
 use Language\Application\Resource\WebResource;
 use Language\Application\Writer\FileWriter;
 use Monolog\Handler\StreamHandler;
@@ -27,18 +28,12 @@ class LanguageBatchBo
 		$logger = $this->getLogger();
 		$logger->debug("Generating language files");
 
-		$config = new Config();
-		$resource = new WebResource($config, new Api());
+		$resource = new WebResource(new Config(), new Api());
 
-		$applications = $this->getWebApplications($config);
+		$applications = $this->getWebApplications(new Config());
 
 		try {
-			foreach ($applications as $app) {
-				$logger->debug("--Application " . $app);
-				$factory = new TranslatorFactory($app, $resource, new FileWriter());
-				$translator = $factory->create();
-				$translator->run();
-			}
+			$this->translateApplication($applications, $resource, $logger);
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}
@@ -48,6 +43,13 @@ class LanguageBatchBo
 	{
 		$apps = $config->get('system.translated_applications');
 		return array_keys($apps);
+	}
+
+	public function getAppletApplications()
+	{
+		return array(
+			'memberapplet' => 'JSM2_MemberApplet',
+		);
 	}
 
 	/**
@@ -64,22 +66,25 @@ class LanguageBatchBo
 		$logger = $this->getLogger();
 		$logger->debug("Generating applet language files");
 
-		$config = new Config();
-		$resource = new AppletResource($config, new Api());
+		$resource = new AppletResource(new Config(), new Api());
 
-		$applications = array(
-			'memberapplet' => 'JSM2_MemberApplet',
-		);
+		$applications = $this->getAppletApplications();
 		
 		try {
-			foreach ($applications as $app) {
-				$logger->debug("--Applet " . $app);
-				$factory = new TranslatorFactory($app, $resource, new FileWriter());
-				$translator = $factory->create();
-				$translator->run();
-			}
+			$this->translateApplication($applications, $resource, $logger);
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
+		}
+	}
+
+	public function translateApplication(array $applications, ResourceInterface $resource, $logger)
+	{
+		
+		foreach ($applications as $app) {
+			$logger->debug("--Applet " . $app);
+			$factory = new TranslatorFactory($app, $resource, new FileWriter());
+			$translator = $factory->create();
+			$translator->run();
 		}
 	}
 
