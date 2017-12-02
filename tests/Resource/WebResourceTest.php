@@ -22,12 +22,37 @@ class WebResourceTest extends TestCase
 		$this->assertInstanceOf(Api::class, $webResource->getApi());
 	}
 
+	public function testGetApplicationsSuccess()
+	{
+		$apps = ['testApplication'];
+		$this->config->expects($this->any())
+			->method('get')
+			->will($this->returnValue(['testApplication' => 'lang']));
+		
+
+		$webResource = new WebResource($this->config, $this->api);
+		$this->assertInternalType('array', $webResource->getApplications());
+		$this->assertEquals($apps, $webResource->getApplications());
+	}
+
 	public function testGetLanguagesSuccess()
 	{
 		$app = 'testApplication';
 		$this->config->expects($this->exactly(1))
 			->method('get')
 			->will($this->returnValue([$app => ['fr-lu', 'de-lu', 'lu']]));
+		
+
+		$webResource = new WebResource($this->config, $this->api);
+		$this->assertInstanceOf(LanguageCollection::class, $webResource->getLanguages($app));
+	}
+
+	public function testGetLanguagesEmpty()
+	{
+		$app = 'testApplication';
+		$this->config->expects($this->exactly(1))
+			->method('get')
+			->will($this->returnValue([$app => null]));
 		
 
 		$webResource = new WebResource($this->config, $this->api);
