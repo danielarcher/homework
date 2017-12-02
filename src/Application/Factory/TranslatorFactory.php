@@ -2,11 +2,10 @@
 
 namespace Language\Application\Factory;
 
-use Language\Application\Language;
+use Language\Application\Factory\LanguageFactory;
 use Language\Application\Resource\ResourceInterface;
 use Language\Application\Translator;
 use Language\Application\Writer\WriterInterface;
-use Psr\Log\LoggerInterface;
 
 class TranslatorFactory
 {
@@ -46,10 +45,7 @@ class TranslatorFactory
 
 	public function createLanguage($languageId)
 	{
-		$languageContent = $this->resource->getLanguageFile($this->app, $languageId);
-		$cacheFile = $this->resource->getLanguageCachePath($this->app, $languageId);
-
-		return new Language($languageId, $languageContent, $cacheFile);
+		return (new LanguageFactory($this->app, $languageId, $this->resource))->create();
 	}
 
 }
