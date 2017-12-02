@@ -10,7 +10,7 @@ class Language
 
 	private $cacheFile;
 
-	public function __construct($id, $content, $cacheFile)
+	public function __construct(string $id, string $content, string $cacheFile)
 	{
 		$this->id = $id;
 		$this->content = $content;
