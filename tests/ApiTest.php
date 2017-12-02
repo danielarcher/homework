@@ -5,38 +5,53 @@ use PHPUnit\Framework\TestCase;
 
 class ApiTest extends TestCase
 {
+	public function setUp()
+	{
+		$this->api = new Api();
+	}
+
 	public function testGetSuccess()
 	{
-		$api = new Api();
-		$return = $api->get('','',array('action'=>'getAppletLanguages'),array());
-		$this->assertEquals(array('en'), $return);
+		$return = $this->api->get('','',array('action'=>'getAppletLanguages'),array());
+		$this->assertInternalType('array', $return);
+
+		$return = $this->api->get('','',array('action'=>'getLanguageFile'),array());
+		$this->assertInternalType('string', $return);
+
+		$return = $this->api->get('','',array('action'=>'getAppletLanguageFile'),array());
+		$this->assertInternalType('string', $return);
+
+		$this->expectException(InvalidArgumentException::class);
+		$return = $this->api->get('','',array('action'=>'notFound'),array());
+	}
+
+	public function testEmptyAction()
+	{
+		$this->expectException(InvalidArgumentException::class);
+		$return = $this->api->get('','',array('action'=>null),array());
 	}
 
 	public function testEmptyReturn()
 	{
-		$api = new Api();
 		$this->expectException(InvalidArgumentException::class);
-		$api->validateResult(array());
+		$this->api->validateResult(array());
 	}
 
 	public function testEmptyDataReturn()
 	{
-		$api = new Api();
 		$this->expectException(InvalidArgumentException::class);
-		$api->validateResult(array('status'=>'OK', 'data'=>null));
+		$this->api->validateResult(array('status'=>'OK', 'data'=>null));
 	}
 
 	public function testInvalidStatus()
 	{
-		$api = new Api();
 		$this->expectException(LogicException::class);
-		$api->validateResult(['status'=>'error']);
+		$this->api->validateResult(['status'=>'error']);
 	}
 
 	public function testNullReturn()
 	{
-		$api = new Api();
 		$this->expectException(LogicException::class);
-		$api->validateResult(null);
+		$this->api->validateResult(null);
 	}
 }
