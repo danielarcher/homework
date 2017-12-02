@@ -19,6 +19,13 @@ class ApiTest extends TestCase
 		$api->validateResult(array());
 	}
 
+	public function testEmptyDataReturn()
+	{
+		$api = new Api();
+		$this->expectException(InvalidArgumentException::class);
+		$api->validateResult(array('status'=>'OK', 'data'=>null));
+	}
+
 	public function testInvalidStatus()
 	{
 		$api = new Api();

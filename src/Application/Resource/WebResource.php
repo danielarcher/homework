@@ -40,11 +40,7 @@ class WebResource implements ResourceInterface
 			return $collection;
 		}
 
-		foreach ($languages as $language) {
-			$collection->add($language);
-		}
-
-		return $collection;
+		return $collection->addMany($languages);
 	}
 
 	public function getLanguageFile(string $appId, string $language)

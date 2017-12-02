@@ -44,11 +44,8 @@ class AppletResource implements ResourceInterface
 			),
 			array('applet' => $appId)
 		);
-		foreach ($return as $language) {
-			$collection->add($language);
-		}
 
-		return $collection;
+		return $collection->addMany($return);
 	}
 
 	public function getLanguageFile(string $appId, string $language)

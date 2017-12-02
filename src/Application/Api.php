@@ -26,7 +26,7 @@ class Api
 			throw new \LogicException($errorMessage);
 		}
 		
-		if ($result['data'] === false) {
+		if (empty($result['data'])) {
 			throw new \InvalidArgumentException('Error in api response: content is empty.');
 		}
 
