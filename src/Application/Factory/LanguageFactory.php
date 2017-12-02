@@ -4,6 +4,7 @@ namespace Language\Application\Factory;
 
 use Language\Application\Language;
 use Language\Application\Resource\ResourceInterface;
+use Language\Application\Exception\LanguageFileNotFoundException;
 
 class LanguageFactory
 {
@@ -33,6 +34,10 @@ class LanguageFactory
 	{
 		$languageContent = $this->resource->getLanguageFile($this->app, $this->language);
 		$cacheFile = $this->resource->getLanguageCachePath($this->app, $this->language);
+
+		if (true === empty($languageContent)) {
+			throw new LanguageFileNotFoundException("Lanugage file not found for [{$this->app}/{$this->language}]", 1);
+		}
 
 		return new Language($this->language, $languageContent, $cacheFile);
 	}
