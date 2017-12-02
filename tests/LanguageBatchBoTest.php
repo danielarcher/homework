@@ -21,16 +21,17 @@ class LanguageBatchBoTest extends TestCase
 		$apps = ['app'];
 		$languageFile = 'testLanguage.xml';
 		$content = 'content';
+		$languages = ['lang1','lang2', 'lang3'];
 
 		$this->resource->expects($this->exactly(1))
 			->method('getLanguages')
-			->will($this->returnValue(['lang1','lang2']));
+			->will($this->returnValue($languages));
 
-		$this->resource->expects($this->exactly(2))
+		$this->resource->expects($this->exactly(count($languages)))
 			->method('getLanguageFile')
 			->will($this->returnValue($content));
 
-		$this->resource->expects($this->exactly(2))
+		$this->resource->expects($this->exactly(count($languages)))
 			->method('getLanguageCachePath')
 			->will($this->returnValue($languageFile));
 
