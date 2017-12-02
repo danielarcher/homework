@@ -24,6 +24,12 @@ class WebResource implements ResourceInterface
 		return $this->api;
 	}
 
+	public function getApplications()
+	{
+		$apps = $this->config->get('system.translated_applications');
+		return array_keys($apps);
+	}
+
 	public function getLanguages(string $appId)
 	{
 		return $this->config->get('system.translated_applications')[$appId];

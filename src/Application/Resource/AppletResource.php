@@ -24,6 +24,13 @@ class AppletResource implements ResourceInterface
 		return $this->api;
 	}
 
+	public function getApplications()
+	{
+		return array(
+			'memberapplet' => 'JSM2_MemberApplet',
+		);
+	}
+
 	public function getLanguages(string $appId)
 	{
 		return $this->api->get(

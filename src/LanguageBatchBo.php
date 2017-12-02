@@ -29,27 +29,13 @@ class LanguageBatchBo
 		$logger->debug("Generating language files");
 
 		$resource = new WebResource(new Config(), new Api());
-
-		$applications = $this->getWebApplications(new Config());
+		$applications = $resource->getApplications();
 
 		try {
 			$this->translateApplication($applications, $resource, $logger);
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}
-	}
-
-	public function getWebApplications(Config $config)
-	{
-		$apps = $config->get('system.translated_applications');
-		return array_keys($apps);
-	}
-
-	public function getAppletApplications()
-	{
-		return array(
-			'memberapplet' => 'JSM2_MemberApplet',
-		);
 	}
 
 	/**
@@ -67,8 +53,7 @@ class LanguageBatchBo
 		$logger->debug("Generating applet language files");
 
 		$resource = new AppletResource(new Config(), new Api());
-
-		$applications = $this->getAppletApplications();
+		$applications = $resource->getApplications();
 		
 		try {
 			$this->translateApplication($applications, $resource, $logger);
@@ -79,7 +64,6 @@ class LanguageBatchBo
 
 	public function translateApplication(array $applications, ResourceInterface $resource, $logger)
 	{
-		
 		foreach ($applications as $app) {
 			$logger->debug("--Applet " . $app);
 			$factory = new TranslatorFactory($app, $resource, new FileWriter());
