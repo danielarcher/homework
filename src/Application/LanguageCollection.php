@@ -8,7 +8,9 @@ class LanguageCollection implements \IteratorAggregate
 
     public function add($language)
     {
-        array_push($this->languages, $language);
+        $this->languages[] = $language;
+
+        return $this;
     }
 
     public function getIterator()

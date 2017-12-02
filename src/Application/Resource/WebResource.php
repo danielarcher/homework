@@ -4,6 +4,7 @@ namespace Language\Application\Resource;
 
 use Language\Application\Api;
 use Language\Application\Config;
+use Language\Application\LanguageCollection;
 use Language\Application\Resource\ResourceInterface;
 
 class WebResource implements ResourceInterface
@@ -32,7 +33,18 @@ class WebResource implements ResourceInterface
 
 	public function getLanguages(string $appId)
 	{
-		return $this->config->get('system.translated_applications')[$appId];
+		$collection = new LanguageCollection();
+		$languages = $this->config->get('system.translated_applications')[$appId];
+
+		if (true === empty($languages)) {
+			return $collection;
+		}
+
+		foreach ($languages as $language) {
+			$collection->add($language);
+		}
+
+		return $collection;
 	}
 
 	public function getLanguageFile(string $appId, string $language)
