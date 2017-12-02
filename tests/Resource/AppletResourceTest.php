@@ -30,4 +30,14 @@ class AppletResourceTest extends TestCase
 		$appletResource = new AppletResource($this->config, $this->api);
 		$this->assertEquals(['fr-lu', 'de-lu', 'lu'], $appletResource->getLanguages(''));
 	}
+
+	public function testGetLanguageFile()
+	{
+		$this->api->expects($this->exactly(1))
+			->method('get')
+			->will($this->returnValue('language data'));
+
+		$appletResource = new AppletResource($this->config, $this->api);
+		$this->assertEquals('language data', $appletResource->getLanguageFile('', ''));
+	}
 }
