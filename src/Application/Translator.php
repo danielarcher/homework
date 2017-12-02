@@ -10,6 +10,8 @@ class Translator
 
 	private $languages = array();
 
+	private $writer;
+
 	public function __construct(string $app, WriterInterface $writer)
 	{
 		$this->app = $app;
@@ -31,4 +33,12 @@ class Translator
 			$this->writer->write($language->getCacheFile(), $language->getContent());
 		}
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
 }
