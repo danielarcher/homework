@@ -17,5 +17,10 @@ The goals are:
 
 #Tests:
 ```
-./vendor/bin/phpunit --bootstrap bootstrap.php --coverage-html coverage --whitelist src tests
+php composer.phar phpunit
+```
+
+#Execute Application
+```
+php composer.phar generate-translation
 ```
