@@ -25,7 +25,8 @@ class FileWriterTest extends TestCase
 
 	public function tearDown()
 	{
-		unlink('testFolder/testFile.txt');
-		rmdir('testFolder');
+		$file = 'testFolder/testFile.txt';
+		unlink($file);
+		rmdir(dirname($file));
 	}
 }
