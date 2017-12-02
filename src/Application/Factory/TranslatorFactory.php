@@ -33,9 +33,14 @@ class TranslatorFactory
 	 */
 	public function create()
 	{
-		$languagesResource = $this->resource->getLanguages($this->app);
-
 		$translator = new Translator($this->app, $this->writer);
+
+		$languagesResource = $this->resource->getLanguages($this->app);
+		
+		if (true === empty($languagesResource)) {
+			return $translator;
+		}
+
 		foreach ($languagesResource as $languageId) {
 			$translator->addLanguage($this->createLanguage($languageId));
 		}
@@ -47,5 +52,21 @@ class TranslatorFactory
 	{
 		return (new LanguageFactory($this->app, $languageId, $this->resource))->create();
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWriter()
+    {
+        return $this->writer;
+    }
 
 }
