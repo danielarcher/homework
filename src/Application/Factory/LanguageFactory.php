@@ -2,9 +2,10 @@
 
 namespace Language\Application\Factory;
 
+use Language\Application\Exception\LanguageCacheFileNullException;
+use Language\Application\Exception\LanguageFileNotFoundException;
 use Language\Application\Language;
 use Language\Application\Resource\ResourceInterface;
-use Language\Application\Exception\LanguageFileNotFoundException;
 
 class LanguageFactory
 {
@@ -37,6 +38,10 @@ class LanguageFactory
 
 		if (true === empty($languageContent)) {
 			throw new LanguageFileNotFoundException("Lanugage file not found for [{$this->app}/{$this->language}]", 1);
+		}
+
+		if (true === is_null($cacheFile)) {
+			throw new LanguageCacheFileNullException("Lanugage file not found for [{$this->app}/{$this->language}]", 1);
 		}
 
 		return new Language($this->language, $languageContent, $cacheFile);
