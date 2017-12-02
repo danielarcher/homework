@@ -44,4 +44,14 @@ class WebResourceTest extends TestCase
 
 		$this->assertEquals('test/cache/app/en.php', $path);
 	}
+
+	public function testGetLanguageFile()
+	{
+		$this->api->expects($this->exactly(1))
+			->method('get')
+			->will($this->returnValue('language data'));
+
+		$webResource = new WebResource($this->config, $this->api);
+		$this->assertEquals('language data', $webResource->getLanguageFile('', ''));
+	}
 }
