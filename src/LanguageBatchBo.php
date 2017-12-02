@@ -12,6 +12,7 @@ use Language\Application\Resource\WebResource;
 use Language\Application\Writer\FileWriter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Business logic related to generating language files.
@@ -25,14 +26,11 @@ class LanguageBatchBo
 	 */
 	public function generateLanguageFiles()
 	{
-		$logger = $this->getLogger();
-		$logger->debug("Generating language files");
-
 		$resource = new WebResource(new Config(), new Api());
 		$applications = $resource->getApplications();
 
 		try {
-			$this->translateApplication($applications, $resource, $logger);
+			$this->translateApplication($applications, $resource, $this->getLogger());
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}
@@ -47,25 +45,21 @@ class LanguageBatchBo
 	 */
 	public function generateAppletLanguageXmlFiles()
 	{
-		// List of the applets [directory => applet_id].
-		
-		$logger = $this->getLogger();
-		$logger->debug("Generating applet language files");
-
 		$resource = new AppletResource(new Config(), new Api());
 		$applications = $resource->getApplications();
 		
 		try {
-			$this->translateApplication($applications, $resource, $logger);
+			$this->translateApplication($applications, $resource, $this->getLogger());
 		} catch (\Exception $e) {
 			$logger->error($e->getMessage());
 		}
 	}
 
-	public function translateApplication(array $applications, ResourceInterface $resource, $logger)
+	public function translateApplication(array $applications, ResourceInterface $resource, LoggerInterface $logger)
 	{
+		$logger->debug('Received (' .count($applications) . ')apps for translation');
 		foreach ($applications as $app) {
-			$logger->debug("--Applet " . $app);
+			$logger->debug(sprintf("Generating translation for app[%s]", $app));
 			$factory = new TranslatorFactory($app, $resource, new FileWriter());
 			$translator = $factory->create();
 			$translator->run();
@@ -78,7 +72,7 @@ class LanguageBatchBo
 	 */
 	protected function getLogger()
 	{
-		$log = new Logger('LanguageBathBo');
+		$log = new Logger('LanguageBatchBo');
 		$log->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
 		return $log;
 	}

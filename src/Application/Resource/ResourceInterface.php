@@ -9,6 +9,8 @@ interface ResourceInterface
 {
 	public function __construct(Config $config, Api $api);
 
+	public function getApplications();
+
 	public function getLanguages(string $appId);
 
 	public function getLanguageFile(string $appId, string $language);
