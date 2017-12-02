@@ -18,6 +18,7 @@ class Language
 	}
 
     /**
+     * @codeCoverageIgnore
      * @return mixed
      */
     public function getId()
