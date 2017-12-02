@@ -5,6 +5,7 @@ namespace Language\Application\Resource;
 use Language\Application\Api;
 use Language\Application\Config;
 use Language\Application\Resource\ResourceInterface;
+use Language\Application\LanguageCollection;
 
 class AppletResource implements ResourceInterface
 {
@@ -33,7 +34,8 @@ class AppletResource implements ResourceInterface
 
 	public function getLanguages(string $appId)
 	{
-		return $this->api->get(
+		$collection = new LanguageCollection();
+		$return = $this->api->get(
 			'system_api',
 			'language_api',
 			array(
@@ -42,6 +44,11 @@ class AppletResource implements ResourceInterface
 			),
 			array('applet' => $appId)
 		);
+		foreach ($return as $language) {
+			$collection->add($language);
+		}
+
+		return $collection;
 	}
 
 	public function getLanguageFile(string $appId, string $language)

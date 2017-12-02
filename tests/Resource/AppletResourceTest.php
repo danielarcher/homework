@@ -2,6 +2,7 @@
 
 use Language\Application\Api;
 use Language\Application\Config;
+use Language\Application\LanguageCollection;
 use Language\Application\Resource\AppletResource;
 use PHPUnit\Framework\TestCase;
 
@@ -11,6 +12,7 @@ class AppletResourceTest extends TestCase
 	{
 		$this->config = $this->getMockBuilder(Config::class)->getMock();
 		$this->api    = $this->getMockBuilder(Api::class)->getMock();
+		$this->collection = $this->getMockBuilder(LanguageCollection::class)->getMock();
 	}
 
 	public function testConstruct()
@@ -28,7 +30,7 @@ class AppletResourceTest extends TestCase
 			->will($this->returnValue(['fr-lu', 'de-lu', 'lu']));
 
 		$appletResource = new AppletResource($this->config, $this->api);
-		$this->assertEquals(['fr-lu', 'de-lu', 'lu'], $appletResource->getLanguages(''));
+		$this->assertInstanceOf(LanguageCollection::class, $appletResource->getLanguages(''));
 	}
 
 	public function testGetLanguageFile()
