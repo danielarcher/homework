@@ -14,3 +14,8 @@ The goals are:
 * Only PHPUnit can be used for testing
 * Commenting is not necessary
 * You can clone this repo, but the homework should be sent to us through email (with the git files)
+
+#Tests:
+```
+./vendor/bin/phpunit --bootstrap bootstrap.php --coverage-html coverage --whitelist src tests
+```
