@@ -70,7 +70,7 @@ class LanguageBatchBo
 	 * Create a new logger
 	 * @return Monolog\Logger
 	 */
-	protected function getLogger()
+	public function getLogger()
 	{
 		$log = new Logger('LanguageBatchBo');
 		$log->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));

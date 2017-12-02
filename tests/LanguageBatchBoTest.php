@@ -42,4 +42,10 @@ class LanguageBatchBoTest extends TestCase
 		$this->assertEquals(file_get_contents($languageFile), $content);
 		unlink($languageFile);
 	}
+
+	public function testGetLoggerReturn()
+	{
+		$languageBatchBo = new LanguageBatchBo();
+		$this->assertInstanceOf(LoggerInterface::class, $languageBatchBo->getLogger());
+	}
 }
