@@ -26,35 +26,11 @@ class Language
     }
 
     /**
-     * @param mixed $id
-     *
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getContent()
     {
         return $this->content;
-    }
-
-    /**
-     * @param mixed $content
-     *
-     * @return self
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
     }
 
     /**
@@ -65,15 +41,4 @@ class Language
         return $this->cacheFile;
     }
 
-    /**
-     * @param mixed $cacheFile
-     *
-     * @return self
-     */
-    public function setCacheFile($cacheFile)
-    {
-        $this->cacheFile = $cacheFile;
-
-        return $this;
-    }
 }

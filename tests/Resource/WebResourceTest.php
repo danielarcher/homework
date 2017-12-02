@@ -31,4 +31,17 @@ class WebResourceTest extends TestCase
 		$webResource = new WebResource($this->config, $this->api);
 		$this->assertEquals(['fr-lu', 'de-lu', 'lu'], $webResource->getLanguages('testApplication'));
 	}
+
+	public function testReturnCachePath()
+	{
+		$this->config->expects($this->exactly(1))
+			->method('get')
+			->with('system.paths.root')
+			->will($this->returnValue('test'));
+
+		$webResource = new WebResource($this->config, $this->api);
+		$path = $webResource->getLanguageCachePath('app', 'en');
+
+		$this->assertEquals('test/cache/app/en.php', $path);
+	}
 }
