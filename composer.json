@@ -7,5 +7,9 @@
     },
     "autoload": {
         "psr-4": {"Language\\": "src/"}
+    },
+    "scripts": {
+    	"generate-translation": "rm -rf cache && php -f src/generate_language_files.php",
+    	"phpunit": "./vendor/bin/phpunit --bootstrap bootstrap.php --coverage-html coverage --whitelist src tests"
     }
 }
