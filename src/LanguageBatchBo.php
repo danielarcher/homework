@@ -6,8 +6,6 @@ use Language\Application\Api;
 use Language\Application\Config;
 use Language\Application\Factory\LanguageCollectionFactory;
 use Language\Application\Factory\LanguageFactory;
-use Language\Application\Factory\TranslatorFactory;
-use Language\Application\Generator\TranslationGenerator;
 use Language\Application\Resource\AppletResource;
 use Language\Application\Resource\ResourceInterface;
 use Language\Application\Resource\WebResource;
@@ -16,6 +14,8 @@ use Language\Application\Writer\FileWriter;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Monolog\Processor\MemoryUsageProcessor;
+use Monolog\Processor\ProcessIdProcessor;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -88,7 +88,7 @@ class LanguageBatchBo
 	 */
 	public function getLogger()
 	{
-		$output = "[%datetime%] %channel%.%level_name%: %message%\n";
+		$output = "[%datetime%] pid:%extra.process_id% memory:%extra.memory_usage% %channel%.%level_name%: %message%\n";
 		$formatter = new LineFormatter($output);
 
 		$streamHandler = new StreamHandler('php://stdout', Logger::DEBUG);
@@ -98,6 +98,8 @@ class LanguageBatchBo
 		$errorHandler->setFormatter($formatter);
 
 		$logger = new Logger('LanguageBatchBo');
+		$logger->pushProcessor(new ProcessIdProcessor());
+		$logger->pushProcessor(new MemoryUsageProcessor());
 		$logger->pushHandler($streamHandler);
 		$logger->pushHandler($errorHandler);
 		return $logger;
