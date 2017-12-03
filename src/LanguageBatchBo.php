@@ -4,11 +4,14 @@ namespace Language;
 
 use Language\Application\Api;
 use Language\Application\Config;
+use Language\Application\Factory\LanguageCollectionFactory;
+use Language\Application\Factory\LanguageFactory;
 use Language\Application\Factory\TranslatorFactory;
 use Language\Application\Generator\TranslationGenerator;
 use Language\Application\Resource\AppletResource;
 use Language\Application\Resource\ResourceInterface;
 use Language\Application\Resource\WebResource;
+use Language\Application\Translator;
 use Language\Application\Writer\FileWriter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -58,10 +61,17 @@ class LanguageBatchBo
 	public function translateApplication(array $applications, ResourceInterface $resource, LoggerInterface $logger)
 	{
 		$logger->debug('Received (' .count($applications) . ')apps for translation');
-		foreach ($applications as $app) {
-			$logger->debug(sprintf("Generating translation for app[%s]", $app));
-			$factory = new TranslatorFactory($app, $resource, new FileWriter());
-			$translator = $factory->create();
+		
+		$factory = new LanguageCollectionFactory($resource, new LanguageFactory($resource));
+
+		foreach ($applications as $applicationId) {
+			$logger->debug(sprintf("Generating translation for app[%s]", $applicationId));
+			
+			$collection = $factory->create($applicationId);
+
+			$logger->debug(sprintf("Found %d languages: %s", count($collection), json_encode($collection->getLanguagesNames())));
+			
+			$translator = new Translator($applicationId, $collection, new FileWriter());
 			$translator->run();
 		}
 	}

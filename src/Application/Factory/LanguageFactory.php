@@ -20,7 +20,7 @@ class LanguageFactory
 	 * @param string            $languageId 
 	 * @param ResourceInterface $resource   
 	 */
-	public function __construct(string $appId, string $languageId, ResourceInterface $resource)
+	public function __construct(ResourceInterface $resource)
 	{
 		$this->app = $appId;
 		$this->resource = $resource;
@@ -31,19 +31,19 @@ class LanguageFactory
 	 * Create a new language class
 	 * @return Language
 	 */
-	public function create()
+	public function create(string $appId, string $languageId)
 	{
-		$languageContent = $this->resource->getLanguageFile($this->app, $this->language);
-		$cacheFile = $this->resource->getLanguageCachePath($this->app, $this->language);
+		$languageContent = $this->resource->getLanguageFile($appId, $languageId);
+		$cacheFile = $this->resource->getLanguageCachePath($appId, $languageId);
 
 		if (true === empty($languageContent)) {
-			throw new LanguageFileNotFoundException("Language file not found for [{$this->app}/{$this->language}]", 1);
+			throw new LanguageFileNotFoundException("Language file not found for [{$appId}/{$languageId}]", 1);
 		}
 
 		if (true === is_null($cacheFile)) {
-			throw new LanguageCacheFileNullException("Language file not found for [{$this->app}/{$this->language}]", 1);
+			throw new LanguageCacheFileNullException("Language file not found for [{$appId}/{$languageId}]", 1);
 		}
 
-		return new Language($this->language, $languageContent, $cacheFile);
+		return new Language($languageId, $languageContent, $cacheFile);
 	}
 }

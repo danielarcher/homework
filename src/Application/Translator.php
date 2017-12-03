@@ -12,12 +12,21 @@ class Translator
 
 	private $writer;
 
-	public function __construct(string $app, WriterInterface $writer)
+	/**
+	 * @param string          $app    
+	 * @param WriterInterface $writer 
+	 */
+	public function __construct(string $app, LanguageCollection $collection, WriterInterface $writer)
 	{
 		$this->app = $app;
 		$this->writer = $writer;
+		$this->languages = $collection;
 	}
 
+	/**
+	 * add a Language
+	 * @param Language $language [description]
+	 */
 	public function addLanguage(Language $language) {
 		array_push($this->languages, $language);
 	}

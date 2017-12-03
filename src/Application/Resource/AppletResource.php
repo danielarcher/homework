@@ -51,10 +51,9 @@ class AppletResource implements ResourceInterface
 	 * @param  string $appId
 	 * @return LanguageCollection
 	 */
-	public function getLanguages(string $appId)
+	public function getLanguages(string $appId) : array
 	{
-		$collection = new LanguageCollection();
-		$languages = $this->api->get(
+		return $this->api->get(
 			'system_api',
 			'language_api',
 			array(
@@ -63,8 +62,6 @@ class AppletResource implements ResourceInterface
 			),
 			array('applet' => $appId)
 		);
-
-		return $collection->addMany($languages);
 	}
 
 	/**

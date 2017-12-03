@@ -51,14 +51,7 @@ class WebResource implements ResourceInterface
 	 */
 	public function getLanguages(string $appId)
 	{
-		$collection = new LanguageCollection();
-		$languages = $this->config->get('system.translated_applications')[$appId];
-
-		if (true === empty($languages)) {
-			return $collection;
-		}
-
-		return $collection->addMany($languages);
+		return $this->config->get('system.translated_applications')[$appId];
 	}
 
 	/**
