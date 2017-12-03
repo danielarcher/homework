@@ -15,9 +15,9 @@ The goals are:
 * Commenting is not necessary
 * You can clone this repo, but the homework should be sent to us through email (with the git files)
 
-# Composer install
+# Composer install (dev)
 ```
-docker run --rm -u=1000:1000 -v $(pwd):/app composer/composer install --prefer-dist -o
+docker run --rm -u=1000:1000 -v $(pwd):/app composer/composer install --prefer-dist --dev -o
 ```
 
 # Tests

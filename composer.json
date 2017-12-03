@@ -2,8 +2,11 @@
     "name": "exam/2015_Q3_senior",
     "description": "2015 Q3 Senior",
     "require": {
-        "phpunit/phpunit": "6.4.*",
+        "php": ">=7.0",
         "monolog/monolog": "^1.23"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "6.4.*"
     },
     "autoload": {
         "psr-4": {"Language\\": "src/"}
