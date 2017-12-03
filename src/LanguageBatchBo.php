@@ -13,6 +13,7 @@ use Language\Application\Resource\ResourceInterface;
 use Language\Application\Resource\WebResource;
 use Language\Application\Translator;
 use Language\Application\Writer\FileWriter;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -60,16 +61,16 @@ class LanguageBatchBo
 
 	public function translateApplication(array $applications, ResourceInterface $resource, LoggerInterface $logger)
 	{
-		$logger->debug('Received (' .count($applications) . ')apps for translation');
+		$logger->debug('Received ' .count($applications) . ' apps to translate');
 		
 		$factory = new LanguageCollectionFactory($resource, new LanguageFactory($resource));
 
 		foreach ($applications as $applicationId) {
-			$logger->debug(sprintf("Generating translation for app[%s]", $applicationId));
+			$logger->debug(sprintf("--Generating translation for [%s]", $applicationId));
 			
 			$collection = $factory->create($applicationId);
 
-			$logger->debug(sprintf("Found %d languages: %s", count($collection), json_encode($collection->getLanguagesNames())));
+			$logger->debug(sprintf("----Found %d languages: %s", count($collection), json_encode($collection->getLanguagesNames())));
 			
 			$translator = new Translator($applicationId, $collection, new FileWriter());
 			$translator->run();
@@ -82,8 +83,14 @@ class LanguageBatchBo
 	 */
 	public function getLogger()
 	{
-		$log = new Logger('LanguageBatchBo');
-		$log->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
-		return $log;
+		$output = "[%datetime%] %channel%.%level_name%: %message%\n";
+		$formatter = new LineFormatter($output);
+
+		$streamHandler = new StreamHandler('php://stdout', Logger::DEBUG);
+		$streamHandler->setFormatter($formatter);
+
+		$logger = new Logger('LanguageBatchBo');
+		$logger->pushHandler($streamHandler);
+		return $logger;
 	}
 }
