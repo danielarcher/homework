@@ -3,6 +3,7 @@
 namespace Language\Application;
 
 use Language\ApiCall;
+use Language\Application\Exception\ApiErrorException;
 
 class Api
 {
@@ -16,9 +17,18 @@ class Api
 	 */
 	public function get(string $target, string $mode, array $getParameters, array $postParameters)
 	{
-		$result = ApiCall::call($target, $mode, $getParameters, $postParameters);
+		try {
+			$result = ApiCall::call($target, $mode, $getParameters, $postParameters);
+
+			return $this->validateResult($result);
+		} catch (\Exception $e) {
+			$message = sprintf("Error during api call. Arguments: {%s} message {%s}",
+				json_encode(func_get_args()),
+				$e->getMessage()
+				);
+			throw new ApiErrorException($message);
+		}
 		
-		return $this->validateResult($result);
 	}
 
 	/**
@@ -29,18 +39,18 @@ class Api
 	public function validateResult($result)
 	{
 		if ($result === false || !isset($result['status'])) {
-			throw new \InvalidArgumentException('Error during the api call: return is empty.');
+			throw new \InvalidArgumentException('Return is empty.');
 		}
 		
 		if ($result['status'] != 'OK') {
-			$errorMessage = sprintf('Error in api response: Returned error type[%s] error code[%s].', 
+			$errorMessage = sprintf('Returned error type[%s] error code[%s].', 
 				$result['error_type'] ?? '', 
 				$result['error_code'] ?? '');
 			throw new \LogicException($errorMessage);
 		}
 		
 		if (empty($result['data'])) {
-			throw new \InvalidArgumentException('Error in api response: content is empty.');
+			throw new \InvalidArgumentException('Content is empty.');
 		}
 
 		return $result['data'];

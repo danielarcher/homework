@@ -23,6 +23,11 @@ use Psr\Log\LoggerInterface;
  */
 class LanguageBatchBo
 {
+	public function __construct()
+	{
+		$this->logger = $this->getLogger();
+	}
+
 	/**
 	 * Starts the language file generation.
 	 *
@@ -34,9 +39,9 @@ class LanguageBatchBo
 		$applications = $resource->getApplications();
 
 		try {
-			$this->translateApplication($applications, $resource, $this->getLogger());
+			$this->translateApplication($applications, $resource, $this->logger);
 		} catch (\Exception $e) {
-			$this->getLogger()->error($e->getMessage());
+			$this->logger->error($e->getMessage());
 		}
 	}
 
@@ -53,9 +58,9 @@ class LanguageBatchBo
 		$applications = $resource->getApplications();
 		
 		try {
-			$this->translateApplication($applications, $resource, $this->getLogger());
+			$this->translateApplication($applications, $resource, $this->logger);
 		} catch (\Exception $e) {
-			$this->getLogger()->error($e->getMessage());
+			$this->logger->error($e->getMessage());
 		}
 	}
 
@@ -89,8 +94,12 @@ class LanguageBatchBo
 		$streamHandler = new StreamHandler('php://stdout', Logger::DEBUG);
 		$streamHandler->setFormatter($formatter);
 
+		$errorHandler = new StreamHandler(__DIR__ . '/../logs/error.log', Logger::ERROR);
+		$errorHandler->setFormatter($formatter);
+
 		$logger = new Logger('LanguageBatchBo');
 		$logger->pushHandler($streamHandler);
+		$logger->pushHandler($errorHandler);
 		return $logger;
 	}
 }

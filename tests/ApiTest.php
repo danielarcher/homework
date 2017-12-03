@@ -1,6 +1,7 @@
 <?php 
 
 use Language\Application\Api;
+use Language\Application\Exception\ApiErrorException;
 use PHPUnit\Framework\TestCase;
 
 class ApiTest extends TestCase
@@ -21,13 +22,13 @@ class ApiTest extends TestCase
 		$return = $this->api->get('','',array('action'=>'getAppletLanguageFile'),array());
 		$this->assertInternalType('string', $return);
 
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(ApiErrorException::class);
 		$return = $this->api->get('','',array('action'=>'notFound'),array());
 	}
 
 	public function testEmptyAction()
 	{
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(ApiErrorException::class);
 		$return = $this->api->get('','',array('action'=>null),array());
 	}
 
