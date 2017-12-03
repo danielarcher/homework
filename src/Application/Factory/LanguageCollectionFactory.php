@@ -3,51 +3,47 @@
 namespace Language\Application\Factory;
 
 use Language\Application\Factory\LanguageFactory;
+use Language\Application\Language;
+use Language\Application\LanguageCollection;
 use Language\Application\Resource\ResourceInterface;
 use Language\Application\Translator;
-use Language\Application\Language;
 use Language\Application\Writer\WriterInterface;
 
-class TranslatorFactory
+class LanguageCollectionFactory
 {
-	protected $app;
-
 	protected $resource;
-
-	protected $writer;
-
+	
 	/**
 	 * Create new Translation class
 	 * @param string            $app      applications id
 	 * @param ResourceInterface $resource resource to get correct data
 	 * @param WriterInterface   $writer   manager to save collected data
 	 */
-	public function __construct(string $app, ResourceInterface $resource, WriterInterface $writer)
+	public function __construct(ResourceInterface $resource, LanguageFactory $languageFactory)
 	{
-		$this->app = $app;
 		$this->resource = $resource;
-		$this->writer = $writer;
+		$this->languageFactory = $languageFactory;
 	}
 
 	/**
-	 * create object translator
-	 * @return Translator
+	 * create object collection
+	 * @return LanguageCollection
 	 */
-	public function create()
+	public function create($applicationId)
 	{
-		$translator = new Translator($this->app, $this->writer);
+		$collection = new LanguageCollection();
 
-		$languagesResource = $this->resource->getLanguages($this->app);
+		$languagesResource = $this->resource->getLanguages($applicationId);
 		
 		if (true === empty($languagesResource)) {
-			return $translator;
+			return $collection;
 		}
 
 		foreach ($languagesResource as $languageId) {
-			$translator->addLanguage($this->createLanguage($languageId));
+			$collection->add($this->createLanguage($applicationId, $languageId));
 		}
 
-		return $translator;
+		return $collection;
 	}
 
 	/**
@@ -55,9 +51,9 @@ class TranslatorFactory
 	 * @param  string $languageId 
 	 * @return Language
 	 */
-	public function createLanguage(string $languageId)
+	public function createLanguage(string $appId, string $languageId)
 	{
-		return (new LanguageFactory($this->app, $languageId, $this->resource))->create();
+		return $this->languageFactory->create($appId, $languageId);
 	}
 
     /**
@@ -69,11 +65,11 @@ class TranslatorFactory
     }
 
     /**
-     * @return WriterInterface
+     * @return LanguageFactory
      */
-    public function getWriter()
+    public function getLanguageFactory()
     {
-        return $this->writer;
+        return $this->languageFactory;
     }
 
 }
