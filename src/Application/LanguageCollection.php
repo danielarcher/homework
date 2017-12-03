@@ -43,10 +43,6 @@ class LanguageCollection implements \IteratorAggregate, \Countable
         return new \ArrayIterator($this->languages);
     }
 
-    /**
-     * @codeCoverageIgnore
-     * @return integer
-     */
     public function count()
     {
         return count($this->languages);
