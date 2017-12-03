@@ -22,18 +22,15 @@ class FileWriterTest extends TestCase
 		$writer->write($this->folder . DIRECTORY_SEPARATOR . $this->file, $this->content);
 
 		$this->assertEquals(file_get_contents($this->folder . DIRECTORY_SEPARATOR . $this->file), $this->content);
-		
 	}
 
 	public function testUnableToWrite()
 	{
-		chmod($this->folder, 0000);
-
 		$this->expectException(UnableToWriteFileException::class);
+
+		chmod($this->folder, 0000);
 		$writer = new FileWriter();
 		$writer->write($this->folder . DIRECTORY_SEPARATOR . $this->file, $this->content);
-		#unlink($this->folder . DIRECTORY_SEPARATOR . $this->file);
-		#rmdir($this->folder);
 	}
 
 	public function tearDown()

@@ -7,10 +7,10 @@ use Language\Application\Writer\WriterInterface;
 
 class FileWriter implements WriterInterface
 {
-	public function write($file, $content)
+	public function write(string $file, string $content)
 	{
 
-		if (false === is_dir(dirname($file))) {
+		if (false == is_dir(dirname($file))) {
 			mkdir(dirname($file), 0755, true);
 		}
 
@@ -18,10 +18,6 @@ class FileWriter implements WriterInterface
 			throw new UnableToWriteFileException('Unable to write in: ' . $file . '!');
 		}
 
-		if (strlen($content) !== file_put_contents($file, $content)) {
-			throw new \LogicException('Unable to save file: ' . $file . '!');
-		}
-
-		return true;
+		return file_put_contents($file, $content);
 	}
 }

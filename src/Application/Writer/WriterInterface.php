@@ -4,5 +4,5 @@ namespace Language\Application\Writer;
 
 interface WriterInterface
 {
-	public function write($name, $content);
+	public function write(string $name, string $content);
 }
