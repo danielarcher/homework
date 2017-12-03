@@ -8,36 +8,34 @@ class FileWriterTest extends TestCase
 {
 	public function setUp()
 	{
-		$this->file = 'testFile.txt';
-		$this->folder = 'testFolder' . rand();
+		$this->file = 'testFolder' . rand() . '/testFile.txt';
+		$this->folder = dirname($this->file);
 		$this->content = 'my content';
-
-		mkdir($this->folder);
-		chmod($this->folder, 0700);
 	}
 
 	public function testWrite()
 	{
 		$writer = new FileWriter();
-		$writer->write($this->folder . DIRECTORY_SEPARATOR . $this->file, $this->content);
+		$writer->write($this->file, $this->content);
 
-		$this->assertEquals(file_get_contents($this->folder . DIRECTORY_SEPARATOR . $this->file), $this->content);
+		$this->assertEquals(file_get_contents($this->file), $this->content);
 	}
 
 	public function testUnableToWrite()
 	{
 		$this->expectException(UnableToWriteFileException::class);
 
-		chmod($this->folder, 0000);
 		$writer = new FileWriter();
-		$writer->write($this->folder . DIRECTORY_SEPARATOR . $this->file, $this->content);
+		$writer->write($this->file, $this->content);
+		chmod($this->folder, 0000);
+		$writer->write($this->file, $this->content);
 	}
 
 	public function tearDown()
 	{
 		chmod($this->folder, 0700);
-		if (file_exists($this->folder . DIRECTORY_SEPARATOR . $this->file)) {
-			unlink($this->folder . DIRECTORY_SEPARATOR . $this->file);
+		if (file_exists($this->file)) {
+			unlink($this->file);
 		}
 		rmdir($this->folder);
 	}

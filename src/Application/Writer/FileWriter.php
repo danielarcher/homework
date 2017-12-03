@@ -9,8 +9,7 @@ class FileWriter implements WriterInterface
 {
 	public function write(string $file, string $content)
 	{
-
-		if (false == is_dir(dirname($file))) {
+		if (false === is_dir(dirname($file))) {
 			mkdir(dirname($file), 0755, true);
 		}
 
