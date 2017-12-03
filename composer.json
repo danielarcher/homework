@@ -11,7 +11,7 @@
     "scripts": {
     	"generate-translation": "rm -rf cache && php -f src/generate_language_files.php",
     	"phpunit": "./vendor/bin/phpunit --bootstrap bootstrap.php --coverage-html coverage --whitelist src tests",
-    	"docker-generate-translation": "rm -rf cache && docker run -v $(pwd):/app --rm php:7.2-alpine php -f /app/src/generate_language_files.php",
-    	"docker-phpunit": "docker run -v $(pwd):/app --rm phpunit/phpunit --bootstrap bootstrap.php --coverage-html coverage --whitelist src tests"
+    	"docker-generate-translation": "rm -rf cache && docker run -u=1000:1000 -v $(pwd):/app --rm php:7.2-alpine php -f /app/src/generate_language_files.php",
+    	"docker-phpunit": "docker run -u=1000:1000 -v $(pwd):/app --rm phpunit/phpunit --bootstrap bootstrap.php --coverage-html coverage --whitelist src tests"
     }
 }
