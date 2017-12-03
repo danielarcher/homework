@@ -9,17 +9,27 @@ use Language\Application\LanguageCollection;
 
 class AppletResource implements ResourceInterface
 {
+	/**
+	 * @param Config $config 
+	 * @param Api    $api    
+	 */
 	public function __construct(Config $config, Api $api)
 	{
 		$this->config = $config;
 		$this->api = $api;
 	}
 
+	/**
+	 * @return Config
+	 */
 	public function getConfig()
 	{
 		return $this->config;
 	}
 
+	/**
+	 * @return Api
+	 */
 	public function getApi()
 	{
 		return $this->api;
@@ -36,10 +46,15 @@ class AppletResource implements ResourceInterface
 		);
 	}
 
+	/**
+	 * get the languages for application
+	 * @param  string $appId
+	 * @return LanguageCollection
+	 */
 	public function getLanguages(string $appId)
 	{
 		$collection = new LanguageCollection();
-		$return = $this->api->get(
+		$languages = $this->api->get(
 			'system_api',
 			'language_api',
 			array(
@@ -49,9 +64,15 @@ class AppletResource implements ResourceInterface
 			array('applet' => $appId)
 		);
 
-		return $collection->addMany($return);
+		return $collection->addMany($languages);
 	}
 
+	/**
+	 * return the language data
+	 * @param  string $appId    
+	 * @param  string $language 
+	 * @return string
+	 */
 	public function getLanguageFile(string $appId, string $language)
 	{
 		return $this->api->get(

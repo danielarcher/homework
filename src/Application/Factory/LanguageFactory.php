@@ -16,9 +16,9 @@ class LanguageFactory
 	protected $language;
 
 	/**
-	 * Create new file generator
-	 * 
-	 * @param TranslatableInterface $application 
+	 * @param string            $appId      
+	 * @param string            $languageId 
+	 * @param ResourceInterface $resource   
 	 */
 	public function __construct(string $appId, string $languageId, ResourceInterface $resource)
 	{
@@ -28,8 +28,8 @@ class LanguageFactory
 	}
 
 	/**
-	 * Generate the files for the listed languages
-	 * @return bool|void
+	 * Create a new language class
+	 * @return Language
 	 */
 	public function create()
 	{
@@ -37,11 +37,11 @@ class LanguageFactory
 		$cacheFile = $this->resource->getLanguageCachePath($this->app, $this->language);
 
 		if (true === empty($languageContent)) {
-			throw new LanguageFileNotFoundException("Lanugage file not found for [{$this->app}/{$this->language}]", 1);
+			throw new LanguageFileNotFoundException("Language file not found for [{$this->app}/{$this->language}]", 1);
 		}
 
 		if (true === is_null($cacheFile)) {
-			throw new LanguageCacheFileNullException("Lanugage file not found for [{$this->app}/{$this->language}]", 1);
+			throw new LanguageCacheFileNullException("Language file not found for [{$this->app}/{$this->language}]", 1);
 		}
 
 		return new Language($this->language, $languageContent, $cacheFile);

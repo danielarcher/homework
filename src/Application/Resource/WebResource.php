@@ -9,28 +9,46 @@ use Language\Application\Resource\ResourceInterface;
 
 class WebResource implements ResourceInterface
 {
+	/**
+	 * @param Config $config
+	 * @param Api    $api   
+	 */
 	public function __construct(Config $config, Api $api)
 	{
 		$this->config = $config;
 		$this->api = $api;
 	}
 
+	/**
+	 * @return Config
+	 */
 	public function getConfig()
 	{
 		return $this->config;
 	}
 
+	/**
+	 * @return Api
+	 */
 	public function getApi()
 	{
 		return $this->api;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getApplications()
 	{
 		$apps = $this->config->get('system.translated_applications');
 		return array_keys($apps);
 	}
 
+	/**
+	 * get languages for application
+	 * @param  string $appId 
+	 * @return LanguageCollection
+	 */
 	public function getLanguages(string $appId)
 	{
 		$collection = new LanguageCollection();
@@ -43,6 +61,12 @@ class WebResource implements ResourceInterface
 		return $collection->addMany($languages);
 	}
 
+	/**
+	 * return the language data
+	 * @param  string $appId    
+	 * @param  string $language 
+	 * @return string
+	 */
 	public function getLanguageFile(string $appId, string $language)
 	{
 		return $this->api->get(
@@ -58,6 +82,12 @@ class WebResource implements ResourceInterface
 		);
 	}
 
+	/**
+	 * return the language cache path
+	 * @param  string $appId    
+	 * @param  string $language 
+	 * @return string
+	 */
 	public function getLanguageCachePath(string $appId, string $language)
 	{
 		return $this->config->get('system.paths.root') . '/cache/' . $appId. '/' . $language . '.php';

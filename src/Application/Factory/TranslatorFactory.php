@@ -5,6 +5,7 @@ namespace Language\Application\Factory;
 use Language\Application\Factory\LanguageFactory;
 use Language\Application\Resource\ResourceInterface;
 use Language\Application\Translator;
+use Language\Application\Language;
 use Language\Application\Writer\WriterInterface;
 
 class TranslatorFactory
@@ -16,9 +17,10 @@ class TranslatorFactory
 	protected $writer;
 
 	/**
-	 * Create new file generator
-	 * 
-	 * @param TranslatableInterface $application 
+	 * Create new Translation class
+	 * @param string            $app      applications id
+	 * @param ResourceInterface $resource resource to get correct data
+	 * @param WriterInterface   $writer   manager to save collected data
 	 */
 	public function __construct(string $app, ResourceInterface $resource, WriterInterface $writer)
 	{
@@ -28,8 +30,8 @@ class TranslatorFactory
 	}
 
 	/**
-	 * Generate the files for the listed languages
-	 * @return bool|void
+	 * create object translator
+	 * @return Translator
 	 */
 	public function create()
 	{
@@ -48,13 +50,18 @@ class TranslatorFactory
 		return $translator;
 	}
 
-	public function createLanguage($languageId)
+	/**
+	 * create new languages, based on params 
+	 * @param  string $languageId 
+	 * @return Language
+	 */
+	public function createLanguage(string $languageId)
 	{
 		return (new LanguageFactory($this->app, $languageId, $this->resource))->create();
 	}
 
     /**
-     * @return mixed
+     * @return ResourceInterface
      */
     public function getResource()
     {
@@ -62,7 +69,7 @@ class TranslatorFactory
     }
 
     /**
-     * @return mixed
+     * @return WriterInterface
      */
     public function getWriter()
     {
