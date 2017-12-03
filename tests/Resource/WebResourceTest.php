@@ -37,14 +37,16 @@ class WebResourceTest extends TestCase
 
 	public function testGetLanguagesSuccess()
 	{
+		$languages = ['fr-lu', 'de-lu', 'lu'];
 		$app = 'testApplication';
-		$this->config->expects($this->exactly(1))
+		$this->config->expects($this->exactly(2))
 			->method('get')
-			->will($this->returnValue([$app => ['fr-lu', 'de-lu', 'lu']]));
+			->will($this->returnValue([$app => $languages]));
 		
 
 		$webResource = new WebResource($this->config, $this->api);
-		$this->assertInstanceOf(LanguageCollection::class, $webResource->getLanguages($app));
+		$this->assertInternalType('array', $webResource->getLanguages($app));
+		$this->assertEquals($languages, $webResource->getLanguages($app));
 	}
 
 	public function testGetLanguagesEmpty()
@@ -56,7 +58,7 @@ class WebResourceTest extends TestCase
 		
 
 		$webResource = new WebResource($this->config, $this->api);
-		$this->assertInstanceOf(LanguageCollection::class, $webResource->getLanguages($app));
+		$this->assertEquals(null, $webResource->getLanguages($app));
 	}
 
 	public function testReturnCachePath()

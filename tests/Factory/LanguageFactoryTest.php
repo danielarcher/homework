@@ -25,17 +25,18 @@ class LanguageFactoryTest extends TestCase
             ->method('getLanguageCachePath')
             ->will($this->returnValue("language.txt"));
         
-        $language = (new LanguageFactory('a', 'b', $this->resource))->create();
+        $language = (new LanguageFactory($this->resource))->create('myApp', 'fr');
         
         $this->assertInstanceOf(Language::class, $language);
         $this->assertEquals("languageContent", $language->getContent());
         $this->assertEquals("language.txt", $language->getCacheFile());
+        $this->assertEquals("fr", $language->getId());
     }
 
     public function testFileNotFound()
     {
         $this->expectException(LanguageFileNotFoundException::class);
-        $language = (new LanguageFactory('a', 'b', $this->resource))->create();
+        $language = (new LanguageFactory($this->resource))->create('myApp', 'fr');
     }
 
     public function testCacheFileNull()
@@ -45,6 +46,6 @@ class LanguageFactoryTest extends TestCase
             ->will($this->returnValue("languageContent"));
         
         $this->expectException(LanguageCacheFileNullException::class);
-        $language = (new LanguageFactory('a', 'b', $this->resource))->create();
+        $language = (new LanguageFactory($this->resource))->create('myApp', 'fr');
     }
 }

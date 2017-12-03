@@ -8,7 +8,7 @@ class Translator
 {
 	private $app;
 
-	private $languages = array();
+	private $languages;
 
 	private $writer;
 
@@ -23,17 +23,9 @@ class Translator
 		$this->languages = $collection;
 	}
 
-	/**
-	 * add a Language
-	 * @param Language $language [description]
-	 */
-	public function addLanguage(Language $language) {
-		array_push($this->languages, $language);
-	}
-
 	public function run()
 	{
-		if (empty($this->languages)) {
+		if (false == count($this->languages)) {
 			return false;
 		}
 

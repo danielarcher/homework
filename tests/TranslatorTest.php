@@ -1,6 +1,7 @@
 <?php 
 
 use Language\Application\Language;
+use Language\Application\LanguageCollection;
 use Language\Application\Translator;
 use Language\Application\Writer\WriterInterface;
 use PHPUnit\Framework\TestCase;
@@ -10,19 +11,24 @@ class TranslatorTest extends TestCase
 	public function setUp()
 	{
 		$this->writer = $this->getMockBuilder(WriterInterface::class)->getMock();
+		$this->languageCollection = $this->getMockBuilder(LanguageCollection::class)->disableOriginalConstructor()->getMock();
 		$this->language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
 	}
 
 	public function testConstruct()
 	{
-		$translator = new Translator('appId', $this->writer);
+		$translator = new Translator('appId', $this->languageCollection, $this->writer);
 
 		$this->assertEquals('appId', $translator->getApp());
 	}
 
 	public function testEmptyLanguages()
 	{
-		$translator = new Translator('appId', $this->writer);
+		$this->languageCollection->expects($this->any())
+			->method('getIterator')
+			->will($this->returnValue(new \ArrayIterator()));
+
+		$translator = new Translator('appId', $this->languageCollection, $this->writer);
 		$this->assertEquals(false, $translator->run());
 	}
 
@@ -41,11 +47,15 @@ class TranslatorTest extends TestCase
 			->method('getContent')
 			->will($this->returnValue('content data'));
 
+		$this->languageCollection->expects($this->any())
+			->method('getIterator')
+			->will($this->returnValue(new \ArrayIterator([$this->language, $this->language])));
 
+		$this->languageCollection->expects($this->any())
+			->method('count')
+			->will($this->returnValue(2));
 
-		$translator = new Translator('appId', $this->writer);
-		$translator->addLanguage($this->language);
-		$translator->addLanguage($this->language);
+		$translator = new Translator('appId', $this->languageCollection, $this->writer);
 		$translator->run();
 	}
 }

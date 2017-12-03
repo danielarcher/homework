@@ -9,11 +9,7 @@ use Language\Application\Resource\ResourceInterface;
 
 class LanguageFactory
 {
-	protected $app;
-
 	protected $resource;
-
-	protected $language;
 
 	/**
 	 * @param string            $appId      
@@ -22,9 +18,7 @@ class LanguageFactory
 	 */
 	public function __construct(ResourceInterface $resource)
 	{
-		$this->app = $appId;
 		$this->resource = $resource;
-		$this->language = $languageId;
 	}
 
 	/**
