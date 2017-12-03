@@ -15,12 +15,21 @@ The goals are:
 * Commenting is not necessary
 * You can clone this repo, but the homework should be sent to us through email (with the git files)
 
+#Composer install
+```
+docker run --rm -u=1000:1000 -v $(pwd):/app composer/composer install --prefer-dist -o
+```
+
 #Tests:
 ```
 php composer.phar phpunit
+#or
+php composer.phar docker-phpunit
 ```
 
 #Execute Application
 ```
 php composer.phar generate-translation
+#or
+php composer.phar docker-generate-translation
 ```
