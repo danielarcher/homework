@@ -25,6 +25,10 @@ class AppletResource implements ResourceInterface
 		return $this->api;
 	}
 
+	/**
+	 * @codeCoverageIgnore
+	 * @return array
+	 */
 	public function getApplications()
 	{
 		return array(

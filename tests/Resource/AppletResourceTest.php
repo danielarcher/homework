@@ -42,4 +42,17 @@ class AppletResourceTest extends TestCase
 		$appletResource = new AppletResource($this->config, $this->api);
 		$this->assertEquals('language data', $appletResource->getLanguageFile('', ''));
 	}
+
+	public function testReturnCachePath()
+	{
+		$this->config->expects($this->exactly(1))
+			->method('get')
+			->with('system.paths.root')
+			->will($this->returnValue('test'));
+
+		$appletResource = new AppletResource($this->config, $this->api);
+		$path = $appletResource->getLanguageCachePath('app', 'en');
+
+		$this->assertEquals('test/cache/flash/lang_en.xml', $path);
+	}
 }
