@@ -7,6 +7,12 @@ use Language\Application\Writer\WriterInterface;
 
 class FileWriter implements WriterInterface
 {
+	/**
+	 * write the file
+	 * @param  string $file    
+	 * @param  string $content 
+	 * @return integer|bool
+	 */
 	public function write(string $file, string $content)
 	{
 		if (false === is_dir(dirname($file))) {

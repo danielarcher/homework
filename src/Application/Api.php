@@ -6,6 +6,14 @@ use Language\ApiCall;
 
 class Api
 {
+	/**
+	 * make the static call to the old api class
+	 * @param  string $target         
+	 * @param  string $mode           
+	 * @param  array  $getParameters  
+	 * @param  array  $postParameters 
+	 * @return mixed
+	 */
 	public function get(string $target, string $mode, array $getParameters, array $postParameters)
 	{
 		$result = ApiCall::call($target, $mode, $getParameters, $postParameters);
@@ -13,6 +21,11 @@ class Api
 		return $this->validateResult($result);
 	}
 
+	/**
+	 * validate the result set of apicall
+	 * @param  mixed $result
+	 * @return mixed        
+	 */
 	public function validateResult($result)
 	{
 		if ($result === false || !isset($result['status'])) {

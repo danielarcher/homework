@@ -10,6 +10,11 @@ class Language
 
 	private $cacheFile;
 
+    /**
+     * @param string $id        
+     * @param string $content   
+     * @param string $cacheFile 
+     */
 	public function __construct(string $id, string $content, string $cacheFile)
 	{
 		$this->id = $id;
@@ -19,7 +24,7 @@ class Language
 
     /**
      * @codeCoverageIgnore
-     * @return mixed
+     * @return string
      */
     public function getId()
     {
@@ -27,7 +32,7 @@ class Language
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getContent()
     {
@@ -35,7 +40,7 @@ class Language
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getCacheFile()
     {
