@@ -1,32 +1,47 @@
 <?php 
 
+use Language\Application\Exception\UnableToWriteFileException;
 use Language\Application\Writer\FileWriter;
 use PHPUnit\Framework\TestCase;
 
 class FileWriterTest extends TestCase
 {
-	/**
-	 * @dataProvider filesProvider
-	 */
-	public function testWrite($file, $content)
+	public function setUp()
 	{
-		$writer = new FileWriter();
-		$writer->write($file, $content);
+		$this->file = 'testFile.txt';
+		$this->folder = 'testFolder' . rand();
+		$this->content = 'my content';
 
-		$this->assertEquals(file_get_contents($file), $content);
+		mkdir($this->folder);
+		chmod($this->folder, 0700);
 	}
 
-	public function filesProvider()
+	public function testWrite()
 	{
-		return [
-			1 => array('testFolder/testFile.txt', 'my content')
-		];
+		$writer = new FileWriter();
+		$writer->write($this->folder . DIRECTORY_SEPARATOR . $this->file, $this->content);
+
+		$this->assertEquals(file_get_contents($this->folder . DIRECTORY_SEPARATOR . $this->file), $this->content);
+		
+	}
+
+	public function testUnableToWrite()
+	{
+		chmod($this->folder, 0000);
+
+		$this->expectException(UnableToWriteFileException::class);
+		$writer = new FileWriter();
+		$writer->write($this->folder . DIRECTORY_SEPARATOR . $this->file, $this->content);
+		#unlink($this->folder . DIRECTORY_SEPARATOR . $this->file);
+		#rmdir($this->folder);
 	}
 
 	public function tearDown()
 	{
-		$file = 'testFolder/testFile.txt';
-		unlink($file);
-		rmdir(dirname($file));
+		chmod($this->folder, 0700);
+		if (file_exists($this->folder . DIRECTORY_SEPARATOR . $this->file)) {
+			unlink($this->folder . DIRECTORY_SEPARATOR . $this->file);
+		}
+		rmdir($this->folder);
 	}
 }

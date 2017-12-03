@@ -2,6 +2,9 @@
 
 namespace Language\Application\Writer;
 
+use Language\Application\Exception\UnableToWriteFileException;
+use Language\Application\Writer\WriterInterface;
+
 class FileWriter implements WriterInterface
 {
 	public function write($file, $content)
@@ -12,7 +15,7 @@ class FileWriter implements WriterInterface
 		}
 
 		if (false === is_writable(dirname($file))) {
-			throw new \LogicException('Unable to write in: ' . $file . '!');
+			throw new UnableToWriteFileException('Unable to write in: ' . $file . '!');
 		}
 
 		if (strlen($content) !== file_put_contents($file, $content)) {

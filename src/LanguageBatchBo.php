@@ -32,7 +32,7 @@ class LanguageBatchBo
 		try {
 			$this->translateApplication($applications, $resource, $this->getLogger());
 		} catch (\Exception $e) {
-			$logger->error($e->getMessage());
+			$this->getLogger()->error($e->getMessage());
 		}
 	}
 
@@ -51,7 +51,7 @@ class LanguageBatchBo
 		try {
 			$this->translateApplication($applications, $resource, $this->getLogger());
 		} catch (\Exception $e) {
-			$logger->error($e->getMessage());
+			$this->getLogger()->error($e->getMessage());
 		}
 	}
 
