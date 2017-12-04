@@ -4,23 +4,23 @@ namespace Language\Application;
 
 class Language
 {
-	private $id;
+    private $id;
 
-	private $content;
+    private $content;
 
-	private $cacheFile;
+    private $cacheFile;
 
     /**
-     * @param string $id        
-     * @param string $content   
-     * @param string $cacheFile 
+     * @param string $id
+     * @param string $content
+     * @param string $cacheFile
      */
-	public function __construct(string $id, string $content, string $cacheFile)
-	{
-		$this->id = $id;
-		$this->content = $content;
-		$this->cacheFile = $cacheFile;
-	}
+    public function __construct(string $id, string $content, string $cacheFile)
+    {
+        $this->id = $id;
+        $this->content = $content;
+        $this->cacheFile = $cacheFile;
+    }
 
     /**
      * @codeCoverageIgnore
@@ -46,5 +46,4 @@ class Language
     {
         return $this->cacheFile;
     }
-
 }

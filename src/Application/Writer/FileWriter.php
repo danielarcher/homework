@@ -7,22 +7,22 @@ use Language\Application\Writer\WriterInterface;
 
 class FileWriter implements WriterInterface
 {
-	/**
-	 * write the file
-	 * @param  string $file    
-	 * @param  string $content 
-	 * @return integer|bool
-	 */
-	public function write(string $file, string $content)
-	{
-		if (false === is_dir(dirname($file))) {
-			mkdir(dirname($file), 0755, true);
-		}
+    /**
+     * write the file
+     * @param  string $file
+     * @param  string $content
+     * @return integer|bool
+     */
+    public function write(string $file, string $content)
+    {
+        if (false === is_dir(dirname($file))) {
+            mkdir(dirname($file), 0755, true);
+        }
 
-		if (false === is_writable(dirname($file))) {
-			throw new UnableToWriteFileException('Unable to write in: ' . $file . '!');
-		}
+        if (false === is_writable(dirname($file))) {
+            throw new UnableToWriteFileException('Unable to write in: ' . $file . '!');
+        }
 
-		return file_put_contents($file, $content);
-	}
+        return file_put_contents($file, $content);
+    }
 }
