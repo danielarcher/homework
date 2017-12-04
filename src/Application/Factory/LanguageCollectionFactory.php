@@ -6,7 +6,6 @@ use Language\Application\Factory\LanguageFactory;
 use Language\Application\Language;
 use Language\Application\LanguageCollection;
 use Language\Application\Resource\ResourceInterface;
-use Language\Application\Translator;
 use Language\Application\Writer\WriterInterface;
 
 class LanguageCollectionFactory

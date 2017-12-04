@@ -13,7 +13,7 @@ class LanguageCollection implements \IteratorAggregate, \Countable
      * @param mixed $language
      * @return  LanguageCollection
      */
-    public function add(Language $language)
+    public function add(Language $language): LanguageCollection
     {
         $this->languages[] = $language;
 
@@ -25,7 +25,7 @@ class LanguageCollection implements \IteratorAggregate, \Countable
      * @param array $languages
      * @return  LanguageCollection
      */
-    public function addMany(array $languages)
+    public function addMany(array $languages): LanguageCollection
     {
         foreach ($languages as $lang) {
             $this->add($lang);
@@ -38,7 +38,7 @@ class LanguageCollection implements \IteratorAggregate, \Countable
      * @codeCoverageIgnore
      * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->languages);
     }
@@ -48,7 +48,11 @@ class LanguageCollection implements \IteratorAggregate, \Countable
         return count($this->languages);
     }
 
-    public function getLanguagesNames()
+    /**
+     * Return array with language names
+     * @return array
+     */
+    public function getLanguagesNames(): array
     {
         $resultSet = array();
         foreach ($this as $language) {

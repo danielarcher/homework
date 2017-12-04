@@ -5,7 +5,6 @@ namespace Language\Application\Resource;
 use Language\Application\Api;
 use Language\Application\Config;
 use Language\Application\Resource\ResourceInterface;
-use Language\Application\LanguageCollection;
 
 class AppletResource implements ResourceInterface
 {
@@ -49,7 +48,7 @@ class AppletResource implements ResourceInterface
 	/**
 	 * get the languages for application
 	 * @param  string $appId
-	 * @return LanguageCollection
+	 * @return array
 	 */
 	public function getLanguages(string $appId) : array
 	{

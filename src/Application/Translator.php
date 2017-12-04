@@ -23,7 +23,7 @@ class Translator
 		$this->languages = $collection;
 	}
 
-	public function run()
+	public function run(): bool
 	{
 		if (false == count($this->languages)) {
 			return false;
@@ -33,12 +33,14 @@ class Translator
 		{
 			$this->writer->write($language->getCacheFile(), $language->getContent());
 		}
+
+		return true;
 	}
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getApp()
+    public function getApp(): string
     {
         return $this->app;
     }

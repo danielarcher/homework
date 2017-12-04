@@ -4,7 +4,6 @@ namespace Language\Application\Resource;
 
 use Language\Application\Api;
 use Language\Application\Config;
-use Language\Application\LanguageCollection;
 use Language\Application\Resource\ResourceInterface;
 
 class WebResource implements ResourceInterface
@@ -47,7 +46,7 @@ class WebResource implements ResourceInterface
 	/**
 	 * get languages for application
 	 * @param  string $appId 
-	 * @return LanguageCollection
+	 * @return array
 	 */
 	public function getLanguages(string $appId)
 	{

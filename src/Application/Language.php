@@ -26,7 +26,7 @@ class Language
      * @codeCoverageIgnore
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -34,7 +34,7 @@ class Language
     /**
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -42,7 +42,7 @@ class Language
     /**
      * @return string
      */
-    public function getCacheFile()
+    public function getCacheFile(): string
     {
         return $this->cacheFile;
     }
